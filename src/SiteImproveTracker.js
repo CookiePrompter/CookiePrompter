@@ -1,10 +1,11 @@
 
 
 var SiteImproveTracker = (function () {
-    var scriptLocation;
+    var scriptLocation, 
+        enableLog=false;
 
     var log = function (msg) {
-        if (window.console) {
+        if (enableLog && window.console) {
             console.log(msg);
         }
     };

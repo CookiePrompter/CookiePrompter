@@ -1,22 +1,4 @@
 ﻿
-var GemiusTracker = (function () {
-    var log = function (msg) {
-        if (window.console) {
-            console.log(msg);
-        }
-    };
-    var injectCode = function (scriptLocation, gemiusAccount) {
-        if (gemiusAccount && scriptLocation !== '') {
-            log('inserting Geminus tracking code');
-            window.pp_gemius_identifier = new String(gemiusAccount);
-            var script = document.createElement('script');
-            script.src = scriptLocation;
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(script, s);
-        }
-    };
-    return { injectCode: injectCode };
-})();
 
 var CookiePrompter = (function () {
     var NO_TRACK_VAL = 'n',
@@ -42,7 +24,7 @@ var CookiePrompter = (function () {
                 'inlinestyle': 'border-bottom:2px solid #000;padding: 12px 20px 0 20px;margin-bottom:12px;',
                 'inlinestyleInner': 'max-width:960px;margin-left:auto;margin-right:auto;'
             },
-            enableLog: true
+            enableLog: false
         };
 
     var log = function (msg) {
@@ -92,7 +74,6 @@ var CookiePrompter = (function () {
         var link = document.getElementById('eksCookieNo');
         if (link) {
             link.onclick = function () {
-  //              GoogleAnalyticsTracker.eraseCookie();
                 if (config.netminersAccount) {
                     NetMinersTracker.eraseCookie(config.netminersAccount);
                 }

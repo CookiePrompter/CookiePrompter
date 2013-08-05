@@ -2,8 +2,9 @@
 
 /// Adding netmindersAccount var to global scope is not pretty
 var NetMinersTracker = (function () {
+    var enableLog = false;
     var log = function (msg) {
-        if (window.console) {
+        if (enableLog && window.console) {
             console.log(msg);
         }
     };

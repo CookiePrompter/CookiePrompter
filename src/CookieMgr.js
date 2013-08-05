@@ -1,4 +1,10 @@
 var CookieMgr = (function () {
+    var enableLog = false;
+    var log = function(msg){
+        if(enableLog && window.console){
+            console.log(msg);
+        }
+    }
     var createCookie = function (name, value, days) {
         var expires = '';
         if (days) {
@@ -31,7 +37,7 @@ var CookieMgr = (function () {
             return null;
         },
         eraseCookie = function (name) {
-            console.log('erasing cookie: ' + name);
+            log('erasing cookie: ' + name);
             createCookie(name, "", -1);
         };
     return { createCookie: createCookie, readCookie: readCookie, eraseCookie: eraseCookie };
