@@ -17,7 +17,14 @@ module.exports = function(grunt) {
                 '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
                 '* Copyright (c) <%= grunt.template.today("yyyy") %> ',
  
+
+
+
         // Task configuration.
+        qunit:{
+            all: ['../test/*.html']
+        },
+
         concat: {
             options: {
                 stripBanners: true
@@ -37,7 +44,8 @@ module.exports = function(grunt) {
  
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-contrib-concat');
- 
+    grunt.loadNpmTasks('grunt-contrib-qunit');
     // Default task
     grunt.registerTask('default', ['concat']);
+    //grunt.registerTask('qunit',['qunit']);
  }
