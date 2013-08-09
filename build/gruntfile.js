@@ -19,7 +19,6 @@ module.exports = function(grunt) {
  
 
 
-
         // Task configuration.
         qunit:{
             all: ['../test/*.html']
@@ -46,6 +45,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-qunit');
     // Default task
-    grunt.registerTask('default', ['concat']);
+    grunt.registerTask('default', ['qunit','concat']);
+    grunt.registerTask('travis',['qunit']);
+//    grunt.registerTask('lints',['lint']);
     //grunt.registerTask('qunit',['qunit']);
  }
