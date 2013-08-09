@@ -1,5 +1,6 @@
-
+/* jshint -W053 */
 var GemiusTracker = (function () {
+    "use strict";
     var log = function (msg) {
         if (window.console) {
             console.log(msg);

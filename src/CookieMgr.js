@@ -4,7 +4,8 @@ var CookieMgr = (function () {
         if(enableLog && window.console){
             console.log(msg);
         }
-    }
+    };
+
     var createCookie = function (name, value, days) {
         var expires = '';
         if (days) {
@@ -32,7 +33,7 @@ var CookieMgr = (function () {
             for (var i = 0; i < ca.length; i++) {
                 var c = ca[i];
                 while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-                if (c.indexOf(nameEq) == 0) return c.substring(nameEq.length, c.length);
+                if (c.indexOf(nameEq) === 0) return c.substring(nameEq.length, c.length);
             }
             return null;
         },

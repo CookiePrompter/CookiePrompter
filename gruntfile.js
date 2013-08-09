@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
- 
+    "use strict"; 
     // Project configuration.
     grunt.initConfig({
  
@@ -24,6 +24,11 @@ module.exports = function(grunt) {
             all: ['./test/*.html']
         },
 
+        jshint:{
+            files:{ src:['gruntfile.js','src/*.js']}
+        },
+
+
         concat: {
             options: {
                 stripBanners: true
@@ -44,9 +49,8 @@ module.exports = function(grunt) {
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-qunit');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
     // Default task
-    grunt.registerTask('default', ['qunit','concat']);
+    grunt.registerTask('default', ['jshint','qunit','concat']);
     grunt.registerTask('travis',['qunit']);
-//    grunt.registerTask('lints',['lint']);
-    //grunt.registerTask('qunit',['qunit']);
- }
+ };

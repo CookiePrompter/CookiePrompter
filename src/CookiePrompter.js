@@ -1,6 +1,6 @@
 ﻿
-
 var CookiePrompter = (function () {
+    "use strict";
     var NO_TRACK_VAL = 'n',
         OK_TRACK_VAL = 'y',
         TRACKING_COOKIE = 'cookieOptOut',
@@ -141,7 +141,7 @@ var CookiePrompter = (function () {
                 log(' b) ok cookie found, tracking accepted, we are tracking');
                 insertTrackingCode();
             } else {
-                if (document.referrer != null && ~document.referrer.indexOf(window.location.host)) {
+                if (document.referrer !== null && ~document.referrer.indexOf(window.location.host)) {
                     log(" c) referrer found from same domain, setting cookie and tracking");
                     cookieMgr.createCookie(TRACKING_COOKIE, OK_TRACK_VAL, 30);
                     insertTrackingCode();

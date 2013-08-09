@@ -1,6 +1,7 @@
 
 
 var GoogleAnalyticsTracker = (function() {
+    "use strict";
     var cookieMgr = CookieMgr,
         loadAsync=false,
         account,

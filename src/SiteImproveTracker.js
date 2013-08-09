@@ -1,6 +1,5 @@
-
-
 var SiteImproveTracker = (function () {
+    "use strict";
     var scriptLocation, 
         enableLog=false;
 

@@ -1,6 +1,5 @@
-
-
 var TestTracker = (function() {
+    "use strict";
     var enableLog = false;
     var log = function(msg) {
         if (enableLog && window.console) {
