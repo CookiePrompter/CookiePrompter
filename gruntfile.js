@@ -9,8 +9,8 @@ module.exports = function(grunt) {
         // Metadata.
         meta: {
             basePath: '../',
-            srcPath: '../src/',
-            deployPath: '../deploy/'
+            srcPath: './src/',
+            deployPath: './deploy/'
         },
  
         banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
@@ -21,7 +21,7 @@ module.exports = function(grunt) {
 
         // Task configuration.
         qunit:{
-            all: ['../test/*.html']
+            all: ['./test/*.html']
         },
 
         concat: {
