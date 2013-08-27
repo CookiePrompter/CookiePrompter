@@ -1,5 +1,3 @@
-
-
 var GoogleAnalyticsTracker = (function() {
     "use strict";
     var cookieMgr = CookieMgr,
@@ -21,6 +19,7 @@ var GoogleAnalyticsTracker = (function() {
         cookieMgr.eraseCookie('__utmc');
         cookieMgr.eraseCookie('__utmz');
     };
+
     var insertGoogleAnalytics = function () {
         if (account) {
             log('inserting Google Analytics tracking code');
@@ -58,6 +57,4 @@ var GoogleAnalyticsTracker = (function() {
     };
 
     return {init:init,eraseCookie:eraseAnalyticsCookies, injectCode:insertGoogleAnalytics};
-
 })();
-

@@ -1,14 +1,15 @@
 var SiteImproveTracker = (function () {
     "use strict";
     var scriptLocation, 
-        enableLog=false;
+        enableLog=false,
+        cookieMgr = CookieMgr;
 
     var log = function (msg) {
         if (enableLog && window.console) {
             console.log(msg);
         }
     };
-    var cookieMgr = CookieMgr;
+
     var injectCode = function () {
         if (typeof scriptLocation == 'string') {
             log('inserting SiteImprove tracking code');
@@ -18,6 +19,7 @@ var SiteImproveTracker = (function () {
             s.parentNode.insertBefore(script, s);
         }
     };
+
     var eraseCookie = function () {
         log('deleting SiteImprove cookie');
         cookieMgr.eraseCookie('nmstat');

@@ -1,6 +1,3 @@
-
-
-/// Adding netmindersAccount var to global scope is not pretty
 var NetMinersTracker = (function () {
     "use strict";
     var enableLog = false;
