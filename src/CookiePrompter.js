@@ -174,12 +174,7 @@ var CookiePrompter = (function () {
             trackers[i].eraseCookie();
         }
 
-        if (config.netminersScriptLocation) {
-            NetMinersTracker.eraseCookie(config.netminersAccount);
-        }
-
         setNoTrackingCookie();
-
     };
 
     return { init: init, removeCookies: removeCookies };
