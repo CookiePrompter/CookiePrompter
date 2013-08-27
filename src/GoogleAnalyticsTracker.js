@@ -51,6 +51,7 @@ var GoogleAnalyticsTracker = (function() {
         params = cfg.params || [];
         account = cfg.account;
         fakeAnalytics = cfg.fakeAnalytics;
+        // if there is a ready() function on the configuration, this will be called.
         if (cfg.ready && typeof cfg.ready === 'function') {
             cfg.ready({ loadAsync:loadAsync,params:params,account:account,fakeAnalytics:fakeAnalytics});
         }
