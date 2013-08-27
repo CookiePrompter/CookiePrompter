@@ -1,6 +1,6 @@
 var NetMinersTracker = (function () {
     "use strict";
-    var enableLog = false;
+    var netminersAccount,scriptLocation,enableLog = false;
     var log = function (msg) {
         if (enableLog && window.console) {
             console.log(msg);
@@ -22,5 +22,15 @@ var NetMinersTracker = (function () {
         s.parentNode.insertBefore(script, s);
     };
 
-    return { injectCode: injectCode, eraseCookie: eraseCookie };
+    var init = function(cfg){
+        netminersAccount = cfg.netminersAccount;
+        scriptLocation = cfg.scriptLocation;
+
+        if (cfg.ready && typeof cfg.ready === 'function') {
+            cfg.ready({scriptLocation:scriptLocation,netminersAccount:netminersAccount});
+        }
+
+    };
+
+    return { init:init,injectCode: injectCode, eraseCookie: eraseCookie };
 })();
