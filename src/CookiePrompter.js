@@ -1,5 +1,4 @@
-﻿
-var CookiePrompter = (function () {
+﻿var CookiePrompter = (function () {
     "use strict";
     var NO_TRACK_VAL = 'n',
         OK_TRACK_VAL = 'y',
@@ -7,12 +6,6 @@ var CookiePrompter = (function () {
         cookieMgr = CookieMgr,
         trackers =[],
         config = {
-            gemiusaccount: null,
-            gemiusScriptLocation: null,
-//            analyticsaccount: null,
-//            analyticsParams: [],
-            netminersScriptLocation: null,
-            netminersAccount: null,
             trackLandingPage: false,
             readMoreUrl: '/',
             textHeader: 'Vi samler statistik ved hjælp af cookies',
@@ -33,7 +26,6 @@ var CookiePrompter = (function () {
         }
     };
 
- 
     var removePrompt = function () {
         var el = document.getElementById("eksCookiePrompt");
         if (el) {
@@ -103,7 +95,6 @@ var CookiePrompter = (function () {
             GemiusTracker.injectCode(config.gemiusScriptLocation, config.gemiusaccount);
         }
       
-
         if (config.netminersScriptLocation) {
             NetMinersTracker.injectCode(config.netminersScriptLocation);
         }
@@ -119,8 +110,6 @@ var CookiePrompter = (function () {
                 trackers.push(tracker); 
             }
         }
-
-
 
         // merge options into config
         for (var k in opts) { config[k] = opts[k]; }
@@ -165,8 +154,6 @@ var CookiePrompter = (function () {
             }
         }
     };
-
-    
 
     var removeCookies = function () {
         log('deleting cookies');
