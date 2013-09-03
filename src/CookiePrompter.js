@@ -80,11 +80,6 @@
 
     var insertTrackingCode = function (async) {
         var asynch = async || true;
-
-        if (config.analyticsaccount) {
-            GoogleAnalyticsTracker.injectCode(asynch,config.analyticsaccount,config.analyticsParams,config.fakeAnalytics);
-        }
-
         for (var i = 0; i < trackers.length; i++) {
             var t = trackers[i];
             log(t);
