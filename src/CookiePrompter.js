@@ -90,14 +90,6 @@
             log(t);
             t.injectCode();
         }
-
-        if (config.gemiusaccount) {
-            GemiusTracker.injectCode(config.gemiusScriptLocation, config.gemiusaccount);
-        }
-      
-        if (config.netminersScriptLocation) {
-            NetMinersTracker.injectCode(config.netminersScriptLocation);
-        }
     };
 
     var init = function (opts) {
