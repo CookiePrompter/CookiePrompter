@@ -66,9 +66,6 @@
         var link = document.getElementById('eksCookieNo');
         if (link) {
             link.onclick = function () {
-                if (config.netminersAccount) {
-                    NetMinersTracker.eraseCookie(config.netminersAccount);
-                }
                 for (var i = 0; i < trackers.length; i++) {
                     trackers[i].eraseCookie();
                 }
