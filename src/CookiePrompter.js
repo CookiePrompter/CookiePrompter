@@ -75,12 +75,11 @@
         }
     };
 
-    var insertTrackingCode = function (async) {
-        var asynch = async || true;
+    var insertTrackingCode = function (cfg) {
         for (var i = 0; i < trackers.length; i++) {
             var t = trackers[i];
             log(t);
-            t.injectCode();
+            t.injectCode(cfg);
         }
     };
 
@@ -130,8 +129,8 @@
                             log('anticookie, lets skip');
                         } else {
                             cookieMgr.createCookie(TRACKING_COOKIE, OK_TRACK_VAL, 30);
-                            log('no anticookie set, lets track');
-                            insertTrackingCode(false);
+                            log('no anticookie set, lets track, but disable async to wait for script load before moving on');
+                            insertTrackingCode({async:false});
                         }
                     };
                 }

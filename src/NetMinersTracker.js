@@ -1,6 +1,6 @@
 var NetMinersTracker = (function () {
     "use strict";
-    var netminersAccount,scriptLocation,enableLog = true;
+    var netminersAccount,scriptLocation,enableLog = false;
     var log = function (msg) {
         if (enableLog && window.console) {
             console.log(msg);

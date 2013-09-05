@@ -12,7 +12,7 @@ var GoogleAnalyticsTracker = (function() {
         }
     };
 
-    var eraseAnalyticsCookies = function () {
+    var eraseCookie = function () {
         // known google analytics cookies
         cookieMgr.eraseCookie('__utma');
         cookieMgr.eraseCookie('__utmb');
@@ -20,7 +20,7 @@ var GoogleAnalyticsTracker = (function() {
         cookieMgr.eraseCookie('__utmz');
     };
 
-    var insertGoogleAnalytics = function () {
+    var injectCode = function (injectCfg) {
         if (account) {
             log('inserting Google Analytics tracking code');
             window._gaq = window._gaq || [];
@@ -33,7 +33,8 @@ var GoogleAnalyticsTracker = (function() {
             (function () {
                 var ga = document.createElement('script');
                 ga.type = 'text/javascript';
-                ga.async = loadAsync;
+                // if injectCode is called with a cfg object where async is set, use that. Otherwise fallback
+                ga.async = injectCfg && injectCfg.async ? injectCfg.async : loadAsync; 
                 if (fakeAnalytics === true) {
                     ga.src = '/scripts/FakeAnalytics.js';
                 } else {
@@ -47,7 +48,7 @@ var GoogleAnalyticsTracker = (function() {
     };
 
     var init = function(cfg) {
-        loadAsync = cfg.async;
+        loadAsync = cfg.async || true;
         params = cfg.params || [];
         account = cfg.account;
         fakeAnalytics = cfg.fakeAnalytics;
@@ -57,5 +58,5 @@ var GoogleAnalyticsTracker = (function() {
         }
     };
 
-    return {init:init,eraseCookie:eraseAnalyticsCookies, injectCode:insertGoogleAnalytics};
+    return {init:init,eraseCookie:eraseCookie, injectCode:injectCode};
 })();
