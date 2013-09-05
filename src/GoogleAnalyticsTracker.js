@@ -1,13 +1,14 @@
 var GoogleAnalyticsTracker = (function() {
     "use strict";
     var cookieMgr = CookieMgr,
-        loadAsync=false,
+        loadAsync=true,
         account,
         params=[],
-        fakeAnalytics;
+        fakeAnalytics,
+        enableLog = false;
 
     var log = function (msg) {
-        if (window.console) {
+        if (window.console && enableLog) {
             console.log(msg);
         }
     };
@@ -21,6 +22,8 @@ var GoogleAnalyticsTracker = (function() {
     };
 
     var injectCode = function (injectCfg) {
+        log('injectCfg:');
+        log(injectCfg);
         if (account) {
             log('inserting Google Analytics tracking code');
             window._gaq = window._gaq || [];
@@ -33,17 +36,37 @@ var GoogleAnalyticsTracker = (function() {
             (function () {
                 var ga = document.createElement('script');
                 ga.type = 'text/javascript';
-                // if injectCode is called with a cfg object where async is set, use that. Otherwise fallback
-                ga.async = injectCfg && injectCfg.async ? injectCfg.async : loadAsync; 
+                setAsyncOnScript(ga,injectCfg);
                 if (fakeAnalytics === true) {
                     ga.src = '/scripts/FakeAnalytics.js';
                 } else {
                     ga.src = ('https:' == document.location.protocol ? 'https://ssl' :
                         'http://www') + '.google-analytics.com/ga.js';
                 }
+                log('async property on script: '+ga.async);
                 var s = document.getElementsByTagName('script')[0];
                 s.parentNode.insertBefore(ga, s);
             })();
+        }
+    };
+
+    var setAsyncOnScript = function(ga,injectCfg){
+        // if injectCode is called with a cfg object where async is set, use that. Otherwise fallback
+        if(injectCfg && typeof(injectCfg.async)!=='undefined'){
+            log('setting async attribute from injectCfg');
+            if(injectCfg.async===true){
+                log('it was true');
+                ga.async = injectCfg.async ; 
+            }else{
+                ga.async = undefined;
+            }
+        }else{
+            log('setting default async attribute');
+            if(loadAsync === true){
+                ga.async = loadAsync ; 
+            }else{
+                ga.async = undefined;
+            }
         }
     };
 

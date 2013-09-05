@@ -36,3 +36,33 @@ test('GoogleAnalyticsTracker is initialized with params', function () {
         }]
     });
 });
+
+test('GoogleAnalyticsTracker script is default async=true', function () {
+    expect(1);
+    var gaCfg = {
+                account: '1234',
+                params: ['p1_sdf', 'p2)_sdfsf']
+                };
+    GoogleAnalyticsTracker.init(gaCfg);
+    GoogleAnalyticsTracker.injectCode();
+
+    // get scriptBlock
+    var scriptTag = document.getElementsByTagName('script')[0];
+    equal(scriptTag.async,true);
+});
+
+test('Google analytics script will respect injectCode async overriding', function () {
+    expect(1);
+    var gaCfg = {
+                account: '1234',
+                params: ['p1_sdf', 'p2)_sdfsf']
+                };
+    GoogleAnalyticsTracker.init(gaCfg);
+    GoogleAnalyticsTracker.injectCode({async:false});
+
+    // get scriptBlock
+    var scriptTag = document.getElementsByTagName('script')[0];
+    console.log(scriptTag['src']);
+    console.log(scriptTag['async']);
+    equal(scriptTag.async,false);
+});

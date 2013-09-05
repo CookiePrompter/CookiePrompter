@@ -2,10 +2,10 @@
 var GemiusTracker = (function () {
     "use strict";
 
-    var scriptLocation,gemiusAccount,loadAsync=false;
+    var scriptLocation,gemiusAccount,loadAsync=false,enableLog=false;
 
     var log = function (msg) {
-        if (window.console) {
+        if (window.console && enableLog) {
             console.log(msg);
         }
     };
@@ -15,7 +15,7 @@ var GemiusTracker = (function () {
             window.pp_gemius_identifier = new String(gemiusAccount);
             var script = document.createElement('script');
             script.src = scriptLocation;
-            script.async = injectCfg && injectCfg.async ? injectCfg.async : loadAsync; 
+            setAsyncOnScript(script,injectCfg);
             var s = document.getElementsByTagName('script')[0];
             s.parentNode.insertBefore(script, s);
         }
@@ -33,6 +33,28 @@ var GemiusTracker = (function () {
             cfg.ready({scriptLocation:scriptLocation,gemiusAccount:gemiusAccount});
         }
     };
+
+
+    var setAsyncOnScript = function(ga,injectCfg){
+        // if injectCode is called with a cfg object where async is set, use that. Otherwise fallback
+        if(injectCfg && typeof(injectCfg.async)!=='undefined'){
+            log('setting async attribute from injectCfg');
+            if(injectCfg.async===true){
+                log('it was true');
+                ga.async = injectCfg.async ; 
+            }else{
+                ga.async = undefined;
+            }
+        }else{
+            log('setting default async attribute');
+            if(loadAsync === true){
+                ga.async = loadAsync ; 
+            }else{
+                ga.async = undefined;
+            }
+        }
+    };
+
 
     return { init:init, injectCode: injectCode,eraseCookie:eraseCookie };
 })();

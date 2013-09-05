@@ -20,3 +20,32 @@ test('GemiusTracker is initialized', function () {
         }]
     });
 });
+
+
+
+test('GemiusTracker is default async=true', function () {
+    expect(1);
+    var gaCfg = {
+                scriptLocation: '/scripts/FakeGemius.js',
+                gemiusAccount: '123sdf43'
+                };
+    GemiusTracker.init(gaCfg);
+    GemiusTracker.injectCode();
+
+    // get scriptBlock
+    var scriptTag = document.getElementsByTagName('script')[0];
+    equal(scriptTag.async,true);
+});
+test('GemiusTracker will respect injectCode async overriding', function () {
+    expect(1);
+    var gaCfg = {
+                scriptLocation: '/scripts/FakeGemius.js',
+                gemiusAccount: '123sdf43'
+                };
+    GemiusTracker.init(gaCfg);
+    GemiusTracker.injectCode({async:false});
+
+    // get scriptBlock
+    var scriptTag = document.getElementsByTagName('script')[0];
+    equal(scriptTag.async,false);
+});
