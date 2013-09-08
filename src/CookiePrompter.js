@@ -6,6 +6,7 @@
         cookieMgr = CookieMgr,
         trackers =[],
         config = {
+            explicitAccept: false,
             trackLandingPage: false,
             readMoreUrl: '/',
             textHeader: 'Vi samler statistik ved hjælp af cookies',
@@ -83,6 +84,11 @@
         }
     };
 
+    var cameFromSameDomain = function(doc){
+        return doc.referrer !== null && ~doc.referrer.indexOf(doc.location.host);
+    };
+
+
     var init = function (opts) {
         if (opts.trackers) {
             for (var i = 0; i < opts.trackers.length; i++) {
@@ -113,26 +119,30 @@
                 log(' b) ok cookie found, tracking accepted, we are tracking');
                 insertTrackingCode();
             } else {
-                if (document.referrer !== null && ~document.referrer.indexOf(window.location.host)) {
-                    log(" c) referrer found from same domain, setting cookie and tracking");
-                    cookieMgr.createCookie(TRACKING_COOKIE, OK_TRACK_VAL, 30);
-                    insertTrackingCode();
-                } else {
-                    log(" d) first time, let's ask");
+                if(config.explicitAccept===true){
                     renderCookieprompt();
-                }
 
-                if (config.trackLandingPage) {
-                    window.onbeforeunload = function () {
-                        log('landing page tracking..');
-                        if (cookieMgr.readCookie(TRACKING_COOKIE) === NO_TRACK_VAL) {
-                            log('anticookie, lets skip');
-                        } else {
-                            cookieMgr.createCookie(TRACKING_COOKIE, OK_TRACK_VAL, 30);
-                            log('no anticookie set, lets track, but disable async to wait for script load before moving on');
-                            insertTrackingCode({async:false});
-                        }
-                    };
+                }else{
+                    if (cameFromSameDomain(document)) {
+                        log(" c) referrer found from same domain, setting cookie and tracking");
+                        cookieMgr.createCookie(TRACKING_COOKIE, OK_TRACK_VAL, 30);
+                        insertTrackingCode();
+                    } else {
+                        log(" d) first time, let's ask");
+                        renderCookieprompt();
+                    }
+                    if (config.trackLandingPage) {
+                        window.onbeforeunload = function () {
+                            log('landing page tracking..');
+                            if (cookieMgr.readCookie(TRACKING_COOKIE) === NO_TRACK_VAL) {
+                                log('anticookie, lets skip');
+                            } else {
+                                cookieMgr.createCookie(TRACKING_COOKIE, OK_TRACK_VAL, 30);
+                                log('no anticookie set, lets track, but disable async to wait for script load before moving on');
+                                insertTrackingCode({async:false});
+                            }
+                        };
+                    }
                 }
             }
         }

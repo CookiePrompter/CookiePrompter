@@ -1,0 +1,42 @@
+<html>
+<head>
+	<title>CookiePrompter / Eksplicit accept</title>
+	<meta charset="utf-8">
+	   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css">
+	  <link rel="stylesheet" type="text/css" href="resources/css/samples.css">
+
+</head>
+<body>
+	<div class="top">
+    </div>
+	<div class="container-fluid">
+	<div class="span-3 sidebar"></div>
+	<div class="span-9">
+
+		<h1>Eksplicit underside</h1>
+		<p>Dette er en underside til <a href="eksplicitAccept.html">eksplicit accept siden</a>, og den tjener det formål at vise, at hvis man navigerer videre fra pågældende side, vil man stadig blive spurgt om sine cookiepræferencer</p>
+		<p>Hvis man vil lade CookiePrompter hænge indtil brugeren aktivt tager stilling er der en konfigurationsmulighed til det også.</p>
+
+	</div>
+	</div>
+	<footer></footer>
+
+	<script type="text/javascript" src="resources/js/jquery.js"></script>
+	<script type="text/javascript" src="../deploy/CookiePrompter.js"></script>
+	<script type="text/javascript">
+		CookiePrompter.init({
+				readMoreUrl: 'readmore.html',
+				explicitAccept:true,
+		        trackers: [{
+		            name: GoogleAnalyticsTracker,
+		            config: {
+		                account: '1234'
+		            }
+		        }]
+		    });
+	</script>
+	<script type="text/javascript">	$(function(){$('.top').load('resources/topnav.html');$('.sidebar').load('resources/sidebar.html');	});</script>
+
+</body>
+</html>
