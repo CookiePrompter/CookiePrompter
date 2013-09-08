@@ -1,0 +1,26 @@
+<html>
+<head>
+	<title>Læs mere om cookies</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css">
+</head>
+<body>
+	<h1>Læs mere om cookies</h1>
+	<script type="text/javascript" src="resources/js/jquery.js"></script>
+
+	<script type="text/javascript" src="../deploy/CookiePrompter.js"></script>
+	<script type="text/javascript">
+		CookiePrompter.init({
+				readMoreUrl: 'readmore.html',
+		        trackers: [{
+		            name: GoogleAnalyticsTracker,
+		            config: {
+		                account: '1234'
+		            }
+		        }]
+		    });
+	</script>
+	<footer></footer>
+	<script type="text/javascript">	$(function(){$('footer').load('resources/footer.html');	});</script>
+</body>
+</html>
