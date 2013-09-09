@@ -37,7 +37,7 @@ test('TestTracker will not inject if first visit',function(){
     ok(el===null, 'Code injected, but should not have been');
 })
 
-test('TestTracker will inject code if from same domain',function(){
+test('TestTracker will inject code if referrer from same domain',function(){
     CookiePrompter.removeCookies();
     CookieMgr.eraseCookie('cookieOptOut');
     CookiePrompter.init({
@@ -50,6 +50,23 @@ test('TestTracker will inject code if from same domain',function(){
     var el = document.getElementById('h1header');
     ok(el, 'Code not injected, but should not have been');
 })
+
+
+test('Explicit consent will be respected even if from same domain',function(){
+    CookiePrompter.removeCookies();
+    CookieMgr.eraseCookie('cookieOptOut');
+    CookiePrompter.init({
+        cameFromSameDomain: function(doc){return true;},
+        explicitAccept: true,
+        trackers: [{
+            name: TestTracker,
+            config: { ready:function() {}}
+        }]
+    }); 
+    var el = document.getElementById('h1header');
+    ok(el===null, 'Code injected, but should not have been');
+})
+
 
 
 

@@ -18,7 +18,7 @@
                 'inlinestyle': 'border-bottom:2px solid #000;padding: 12px 20px 0 20px;margin-bottom:12px;',
                 'inlinestyleInner': 'max-width:960px;margin-left:auto;margin-right:auto;'
             },
-            enableLog: true,
+            enableLog: false,
             cameFromSameDomain: function(doc){
                 return doc.referrer !== null && ~doc.referrer.indexOf(doc.location.host);
             }
@@ -88,10 +88,6 @@
         }
     };
 
-    var cameFromSameDomain = function(doc){
-    };
-
-
     var init = function (opts) {
         if (opts.trackers) {
             for (var i = 0; i < opts.trackers.length; i++) {
@@ -124,7 +120,6 @@
             } else {
                 if(config.explicitAccept===true){
                     renderCookieprompt();
-
                 }else{
                     if (config.cameFromSameDomain(document)) {
                         log(" c) referrer found from same domain, setting cookie and tracking");

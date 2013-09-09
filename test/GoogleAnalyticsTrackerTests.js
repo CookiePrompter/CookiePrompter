@@ -62,7 +62,5 @@ test('Google analytics script will respect injectCode async overriding', functio
 
     // get scriptBlock
     var scriptTag = document.getElementsByTagName('script')[0];
-    console.log(scriptTag['src']);
-    console.log(scriptTag['async']);
     equal(scriptTag.async,false);
 });
