@@ -20,3 +20,37 @@ test('TestTracker is initialized', function() {
         }]
     });
 });
+
+
+
+test('TestTracker will not inject if first visit',function(){
+    CookiePrompter.removeCookies();
+    CookieMgr.eraseCookie('cookieOptOut');
+    CookiePrompter.init({
+        cameFromSameDomain: function(doc){return false;},
+        trackers: [{
+            name: TestTracker,
+            config: { ready:function() {}}
+        }]
+    }); 
+    var el = document.getElementById('h1header');
+    ok(el===null, 'Code injected, but should not have been');
+})
+
+test('TestTracker will inject code if from same domain',function(){
+    CookiePrompter.removeCookies();
+    CookieMgr.eraseCookie('cookieOptOut');
+    CookiePrompter.init({
+        cameFromSameDomain: function(doc){return true;},
+        trackers: [{
+            name: TestTracker,
+            config: { ready:function() {}}
+        }]
+    }); 
+    var el = document.getElementById('h1header');
+    ok(el, 'Code not injected, but should not have been');
+})
+
+
+
+

@@ -14,9 +14,19 @@ var TestTracker = (function() {
         }
 
     },
-        injectCode= function() {
-        },
-        eraseCookie= function() {
-        };
+    injectCode= function() {
+        var testTag = document.createElement('h1');
+        testTag.className = 'testheader';
+        testTag.innerText = 'Overskrift';
+        testTag.id = 'h1header';
+        var body = document.getElementsByTagName('body')[0];
+        body.insertBefore(testTag, body.firstChild);
+    },
+    eraseCookie= function() {
+        var el = document.getElementById("h1header");
+        if (el) {
+            el.parentNode.removeChild(el);
+        }
+    };
     return { init: init,injectCode:injectCode,eraseCookie:eraseCookie };
 })();

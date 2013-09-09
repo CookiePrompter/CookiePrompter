@@ -18,7 +18,10 @@
                 'inlinestyle': 'border-bottom:2px solid #000;padding: 12px 20px 0 20px;margin-bottom:12px;',
                 'inlinestyleInner': 'max-width:960px;margin-left:auto;margin-right:auto;'
             },
-            enableLog: false
+            enableLog: true,
+            cameFromSameDomain: function(doc){
+                return doc.referrer !== null && ~doc.referrer.indexOf(doc.location.host);
+            }
         };
 
     var log = function (msg) {
@@ -77,6 +80,7 @@
     };
 
     var insertTrackingCode = function (cfg) {
+        log('inserting tracking code');
         for (var i = 0; i < trackers.length; i++) {
             var t = trackers[i];
             log(t);
@@ -85,7 +89,6 @@
     };
 
     var cameFromSameDomain = function(doc){
-        return doc.referrer !== null && ~doc.referrer.indexOf(doc.location.host);
     };
 
 
@@ -123,7 +126,7 @@
                     renderCookieprompt();
 
                 }else{
-                    if (cameFromSameDomain(document)) {
+                    if (config.cameFromSameDomain(document)) {
                         log(" c) referrer found from same domain, setting cookie and tracking");
                         cookieMgr.createCookie(TRACKING_COOKIE, OK_TRACK_VAL, 30);
                         insertTrackingCode();
@@ -157,5 +160,5 @@
         setNoTrackingCookie();
     };
 
-    return { init: init, removeCookies: removeCookies };
+    return { init: init, removeCookies: removeCookies,removePrompt:removePrompt };
 })();
