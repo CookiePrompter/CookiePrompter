@@ -1,6 +1,6 @@
 <div class="well sidebar-nav">
   <ul class="nav nav-list">
-    <li class="nav-header">Menu</li>
+    <li class="nav-header">Basal opsætning</li>
     <li class=""><a href="googleanalytics.html">Simpelt Google Analytics</a></li>
     
     <li class="nav-header">Trackers</li>
@@ -15,10 +15,9 @@
 <script type="text/javascript">
   $(function(){
     $('.sidebar-nav ul li a').each(function(i,e){
-      if(e.href.match(document.location)){
+      if(!(document.location.href.match(/samples\/?$/i)) && e.href.match(document.location)){
           $(e).closest('li').addClass('active');
       }
     })
   })
-
 </script>

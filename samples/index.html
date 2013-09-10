@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="da">
 <head>
 	<title>CookiePrompter / Google Analytics Tracker</title>
 	  <meta charset="utf-8">
@@ -7,38 +8,38 @@
 	  <link rel="stylesheet" type="text/css" href="resources/css/samples.css">
 </head>
 <body> 
-	<div class="top">
-    </div>
-	<div class="container">
-	<h1>CookiePrompter.js Samples</h1>
-	<p>Find CookiePrompter.js her: <a href="https://github.com/CookiePrompter/CookiePrompter">https://github.com/CookiePrompter/CookiePrompter</a> </p>
+	<div class="top"></div>
+	<div class="row-fluid">
+		<div class="span2 sidebar"></div>
+		<div class="span10">
+			<h1>CookiePrompter.js Samples</h1>
+			<p>Find CookiePrompter.js her: <a href="https://github.com/CookiePrompter/CookiePrompter">https://github.com/CookiePrompter/CookiePrompter</a> </p>
+			<p>
+				<ul>
+					<li><a href="googleanalytics.html"> Simpelt Google Analytics setup</a></li>
+				</ul>
+			</p>
 
-	<p>
-		<ul>
-			<li><a href="googleanalytics.html"> Simpelt Google Analytics setup</a></li>
-		</ul>
-	</p>
+
+			<h2>Hvordan bruger jeg samples?</h2>
+			<p>Du kan ikke åbne filen i en browser direkte fra disken, da cookies kræver at man kører på en webserver.</p>
+			<p>Så du skal starte en webserver i roden af den folder, du har pakket projektet ud i. (dette er vigtigt, selvom det er fristende at lade webserveren køre på samples, vil det ikke virke, da CookiePrompter.js scriptet ligger længere ude)</p>
+			<p>Derefter skal du pege din browser hen på f.eks. http://localhost:80/samples/</p>
 
 
-	<h2>Hvordan bruger jeg samples?</h2>
-	<p>Du kan ikke åbne filen i en browser direkte fra disken, da cookies kræver at man kører på en webserver.</p>
-	<p>Så du skal starte en webserver i roden af den folder, du har pakket projektet ud i. (dette er vigtigt, selvom det er fristende at lade webserveren køre på samples, vil det ikke virke, da CookiePrompter.js scriptet ligger længere ude)</p>
-	<p>Derefter skal du pege din browser hen på f.eks. http://localhost:80/samples/</p>
-
-	<h2>Om at teste</h2>
-	<p>Hvis du gerne vil kontrollere at CookiePrompter opfører sig som den skal, skal du være opmærksom på, hvordan den virker.</p>
-	<p>
-		<ol>
-			<li>Hvis du gerne vil kontrollere at scriptet bliver indsat/ikke indsat, kan du ikke lave en "vis kilde", da tracking scripts indsættes dynamisk og derfor kun kan ses gennem f.eks. Google Chrome DevTools og dens elements-tab.</li>
-			<li>Hvis du sletter <code>cookieOptOut</code> cookien og derefter trykker på F5 for at vise prompten igen, kan det være at prompten ikke vises og at cookien bliver sat igen. Du skal sætte din cursor i browserens adresselinje og trykke på Enter for at få den ønskede effekt <br>(<small>dette skyldes at en F5 gentager det sidste request til siden, inkl referer information, som CookiePrompter bruger til at vurdere om du kommer fra en side på samme domæne</small>)</li>
-			<li>Når du navigerer rundt mellem eksemplerne her, vil du altid skulle slette <code>cookieOptOut</code> cookien og indlæse den side du vil teste manuelt, hvis du tester implicit accept af cookies.</li>
-		</ol>	 
-	</p>
-	
+			<h2>Om at teste</h2>
+			<p>Hvis du gerne vil kontrollere at CookiePrompter opfører sig som den skal, skal du være opmærksom på, hvordan den virker.</p>
+				<ol>
+					<li>Hvis du gerne vil kontrollere at scriptet bliver indsat/ikke indsat, kan du ikke lave en "vis kilde", da tracking scripts indsættes dynamisk og derfor kun kan ses gennem f.eks. Google Chrome DevTools og dens elements-tab.</li>
+					<li>Hvis du sletter <code>cookieOptOut</code> cookien og derefter trykker på F5 for at vise prompten igen, kan det være at prompten ikke vises og at cookien bliver sat igen. Du skal sætte din cursor i browserens adresselinje og trykke på Enter for at få den ønskede effekt <br>(<small>dette skyldes at en F5 gentager det sidste request til siden, inkl referer information, som CookiePrompter bruger til at vurdere om du kommer fra en side på samme domæne</small>)</li>
+					<li>Når du navigerer rundt mellem eksemplerne her, vil du altid skulle slette <code>cookieOptOut</code> cookien og indlæse den side du vil teste manuelt, hvis du tester implicit accept af cookies.</li>
+				</ol>	 
+			
+		</div>
 	</div>
 	<script type="text/javascript" src="resources/js/jquery.js"></script>
 	<script src="resources/js/bootstrap.min.js"></script>
-	<script type="text/javascript">	$(function(){$('.top').load('resources/topnav.html');	});</script>
+	<script type="text/javascript">	$(function(){$('.top').load('resources/topnav.html');$('.sidebar').load('resources/sidebar.html');	});</script>
 
 </body>
 </html>
