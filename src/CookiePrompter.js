@@ -1,4 +1,4 @@
-﻿var CookiePrompter = (function () {
+var CookiePrompter = (function () {
     "use strict";
     var NO_TRACK_VAL = 'n',
         OK_TRACK_VAL = 'y',
