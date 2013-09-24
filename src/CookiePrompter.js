@@ -102,6 +102,7 @@
         html.push('</div></div>');
         var body = document.getElementsByTagName('body')[0];
         var block = document.createElement('div');
+        block.className ='eksCookieContainer';
         block.innerHTML = html.join('');
         body.insertBefore(block, body.firstChild);
         var link = document.getElementById('eksCookieNo');
