@@ -48,11 +48,13 @@ var CookiePrompter = (function () {
         cookieMgr.createCookie(TRACKING_COOKIE, OK_TRACK_VAL, 30);
         insertTrackingCode();
         removePrompt();
+        return false;
     };
 
     var eraseCookiesAndRemovePrompt = function(){
         removeCookies();
         removePrompt();
+        return false;
     };
 
     var bindAcceptCookiesBtn = function(){
