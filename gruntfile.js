@@ -40,6 +40,7 @@ module.exports = function(grunt) {
                 '<%= meta.srcPath %>NetMinersTracker.js',
                 '<%= meta.srcPath %>GoogleAnalyticsTracker.js',
                 '<%= meta.srcPath %>SiteImproveTracker.js',
+                '<%= meta.srcPath %>getElementsByClassName.polyfill.js',
                 '<%= meta.srcPath %>CookiePrompter.js'],
                 dest: '<%= meta.deployPath %>CookiePrompter.js'
             }
