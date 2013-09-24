@@ -7,7 +7,6 @@
         trackers =[],
         config = {
             explicitAccept: false,
-
             trackLandingPage: false,
             readMoreUrl: '/',
             textHeader: 'Vi samler statistik ved hjælp af cookies',
@@ -46,15 +45,15 @@
     };
     
     var acceptBtnClick = function(){
-                cookieMgr.createCookie(TRACKING_COOKIE, OK_TRACK_VAL, 30);
-                insertTrackingCode();
-                removePrompt();
+        cookieMgr.createCookie(TRACKING_COOKIE, OK_TRACK_VAL, 30);
+        insertTrackingCode();
+        removePrompt();
     };
 
-    var dontAcceptBtnClick = function(){
-                removeCookies();
-                removePrompt();
-            };
+    var eraseCookiesAndRemovePrompt = function(){
+        removeCookies();
+        removePrompt();
+    };
 
     var bindAcceptCookiesBtn = function(){
         var acceptbtns = document.getElementsByClassName('cpAcceptBtn');
@@ -68,7 +67,7 @@
       var dontAcceptBtns = document.getElementsByClassName('cpDontAcceptBtn');
         for (var i = dontAcceptBtns.length - 1; i >= 0; i--) {
             var btn = dontAcceptBtns[i];
-            btn.onclick = dontAcceptBtnClick;
+            btn.onclick = eraseCookiesAndRemovePrompt;
         }
     };
 
@@ -107,13 +106,7 @@
         body.insertBefore(block, body.firstChild);
         var link = document.getElementById('eksCookieNo');
         if (link) {
-            link.onclick = function () {
-                for (var i = 0; i < trackers.length; i++) {
-                    trackers[i].eraseCookie();
-                }
-                setNoTrackingCookie();
-                removePrompt();
-            };
+            link.onclick = eraseCookiesAndRemovePrompt;
         }
 
         hookupExplicitBtns();
@@ -150,7 +143,6 @@
         // check for cookie
         var cookie = cookieMgr.readCookie(TRACKING_COOKIE);
 
-        // a) it's there and so we can NOT track
         if (cookie === NO_TRACK_VAL) {
             log('a) disabletracking cookie found. Not tracking');
         } else {
