@@ -20,9 +20,12 @@ var CookiePrompter = (function () {
                 'inlinestyle': 'border-bottom:2px solid #000;padding: 12px 20px 0 20px;margin-bottom:12px;',
                 'inlinestyleInner': 'max-width:960px;margin-left:auto;margin-right:auto;'
             },
-            enableLog: false,
+            enableLog: true,
             cameFromSameDomain: function(doc){
                 return doc.referrer !== null && ~doc.referrer.indexOf(doc.location.host);
+            },
+            onOptOut: function(pageHref){
+                log('opting out from page: '+pageHref);
             }
         };
 
@@ -54,6 +57,10 @@ var CookiePrompter = (function () {
     var eraseCookiesAndRemovePrompt = function(){
         removeCookies();
         removePrompt();
+        if(config.onOptOut && typeof(config.onOptOut)==='function'){
+            log('firing onOptOut callback');
+            config.onOptOut(window.location.href);
+        }
         return false;
     };
 
@@ -189,5 +196,5 @@ var CookiePrompter = (function () {
         setNoTrackingCookie();
     };
 
-    return { init: init, removeCookies: removeCookies,removePrompt:removePrompt };
+    return { init: init, removeCookies: removeCookies,removePrompt:removePrompt,eraseCookiesAndRemovePrompt:eraseCookiesAndRemovePrompt };
 })();

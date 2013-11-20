@@ -8,6 +8,43 @@ test('Init can run', function() {
     notEqual(null, Document);
 });
 
+
+test('OnOptOut callback can be null',function(){
+    expect(2);
+    CookiePrompter.init({
+        trackers: [{
+            name: TestTracker,
+            config: {
+                ready: function () {
+                    ok(true, 'tracker inialized');
+                    CookiePrompter.eraseCookiesAndRemovePrompt();
+                    ok(true);
+                }
+            }
+        }]
+    });
+});
+
+test('OnOptOut callback will be called once when erasing cookies',function(){
+    expect(2);
+    var callCount = 0;
+    CookiePrompter.init({
+        onOptOut: function(href){
+            callCount = callCount+1;
+        },
+        trackers: [{
+            name: TestTracker,
+            config: {
+                ready: function () {
+                    ok(true, 'tracker inialized');
+                }
+            }
+        }]
+    });
+    CookiePrompter.eraseCookiesAndRemovePrompt();
+    ok(callCount===1);
+});
+
 test('TestTracker is initialized', function () {
     expect(1);
     CookiePrompter.init({
