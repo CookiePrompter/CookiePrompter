@@ -44,6 +44,12 @@ module.exports = function(grunt) {
                 '<%= meta.srcPath %>CookiePrompter.js'],
                 dest: '<%= meta.deployPath %>CookiePrompter.js'
             }
+        },
+        uglify:{
+            build:{
+                src:'<%= meta.deployPath %>CookiePrompter.js',
+                dest:'<%= meta.deployPath %>CookiePrompter.min.js'
+            }
         }
     });
  
@@ -51,7 +57,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+
     // Default task
-    grunt.registerTask('default', ['jshint','qunit','concat']);
+    grunt.registerTask('default', ['jshint','qunit','concat','uglify']);
     grunt.registerTask('travis',['qunit']);
  };
