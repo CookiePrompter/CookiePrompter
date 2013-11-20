@@ -41,7 +41,6 @@ test('EnableLog will set individually for each init',function(){
                 }
             }
         }]
-
     });
 
     CookiePrompter.init({
@@ -56,9 +55,7 @@ test('EnableLog will set individually for each init',function(){
                 }
             }
         }]
-
     });
-
 });
 
 test('OnOptOut callback will be called once when erasing cookies',function(){
