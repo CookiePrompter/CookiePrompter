@@ -25,10 +25,47 @@ test('OnOptOut callback can be null',function(){
     });
 });
 
+
+test('EnableLog will set individually for each init',function(){
+    expect(4);
+    CookiePrompter.init({
+        enableLog: true,
+        onReady: function(cfg){
+            ok(cfg.enableLog===true);
+        },
+        trackers: [{
+            name: TestTracker,
+            config: {
+                ready: function () {
+                    ok(true, 'tracker inialized');
+                }
+            }
+        }]
+
+    });
+
+    CookiePrompter.init({
+        onReady: function(cfg){
+            ok(cfg.enableLog===false);
+        },
+        trackers: [{
+            name: TestTracker,
+            config: {
+                ready: function () {
+                    ok(true, 'tracker inialized');
+                }
+            }
+        }]
+
+    });
+
+});
+
 test('OnOptOut callback will be called once when erasing cookies',function(){
     expect(2);
     var callCount = 0;
     CookiePrompter.init({
+        enableLog: false,
         onOptOut: function(href){
             callCount = callCount+1;
         },

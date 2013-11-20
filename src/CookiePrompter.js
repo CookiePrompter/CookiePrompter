@@ -5,7 +5,8 @@ var CookiePrompter = (function () {
         TRACKING_COOKIE = 'cookieOptOut',
         cookieMgr = CookieMgr,
         trackers =[],
-        config = {
+        config={},
+        defaults = { // will be copied into config on init
             explicitAccept: false,
             trackLandingPage: false,
             readMoreUrl: '/',
@@ -20,13 +21,14 @@ var CookiePrompter = (function () {
                 'inlinestyle': 'border-bottom:2px solid #000;padding: 12px 20px 0 20px;margin-bottom:12px;',
                 'inlinestyleInner': 'max-width:960px;margin-left:auto;margin-right:auto;'
             },
-            enableLog: true,
+            enableLog: false,
             cameFromSameDomain: function(doc){
                 return doc.referrer !== null && ~doc.referrer.indexOf(doc.location.host);
             },
             onOptOut: function(pageHref){
                 log('opting out from page: '+pageHref);
-            }
+            },
+            onReady: function(cfg){}
         };
 
     var log = function (msg) {
@@ -141,9 +143,17 @@ var CookiePrompter = (function () {
             }
         }
 
-        // merge options into config
-        for (var k in opts) { config[k] = opts[k]; }
+        // merge defaults into config
+        for (var k in defaults) {
+            config[k] = defaults[k]; 
+        }
 
+        // merge supplied overrides into config
+        for (var j in opts) {
+            config[j] = opts[j]; 
+        }
+
+        // read more page
         if (document.location.hash === '#cookieprompt') {
             renderCookieprompt();
             return;
@@ -185,6 +195,7 @@ var CookiePrompter = (function () {
                 }
             }
         }
+        config.onReady(config);
     };
 
     var removeCookies = function () {
