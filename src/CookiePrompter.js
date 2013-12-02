@@ -207,6 +207,11 @@ var CookiePrompter = (function () {
         config.onReady(config);
     };
 
+    var cookiesAllowed = function(){
+        var cookie = cookieMgr.readCookie(TRACKING_COOKIE);
+        return cookie === OK_TRACK_VAL;
+    };
+
     var removeCookies = function () {
         log('deleting cookies');
         for (var i = 0; i < trackers.length; i++) {
@@ -216,5 +221,11 @@ var CookiePrompter = (function () {
         setNoTrackingCookie();
     };
 
-    return { init: init, removeCookies: removeCookies,removePrompt:removePrompt,eraseCookiesAndRemovePrompt:eraseCookiesAndRemovePrompt };
+    return { 
+        init: init, 
+        removeCookies: removeCookies,
+        removePrompt:removePrompt,
+        eraseCookiesAndRemovePrompt:eraseCookiesAndRemovePrompt, 
+        cookiesAllowed:cookiesAllowed 
+    };
 })();
