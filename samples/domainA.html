@@ -41,17 +41,17 @@
 		var childdomain = 'http://domainb.dk';
 
 		// helper function to setup crossbrowser postMessage calls
-		function subscribeToPostMessage(func){
-			log('setting up postmsg listeneer');
-			if(func && typeof func ==='function'){
-				var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
-				var eventer = window[eventMethod];
-				var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
-				eventer(messageEvent,func,false);
-			}
-		}
+		// function subscribeToPostMessage(func){
+		// 	log('setting up postmsg listeneer');
+		// 	if(func && typeof func ==='function'){
+		// 		var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+		// 		var eventer = window[eventMethod];
+		// 		var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+		// 		eventer(messageEvent,func,false);
+		// 	}
+		// }
 
-		function receiveMessage(msg){
+		function receiveMessage(msg){	
 			log('recieved msg from child frame:');
 			log(msg);
 
@@ -60,7 +60,7 @@
 			childframe.contentWindow.postMessage('cookiesAllowed:'+CookiePrompter.cookiesAllowed(),childdomain);
 		}
 
-		subscribeToPostMessage(receiveMessage);
+		// subscribeToPostMessage(receiveMessage);
 		$(function(){
 			$('#postbtn').click(function(){
 				var childframe = $('#childframer')[0];
@@ -69,7 +69,7 @@
 		});
 
 	</script>
-	<footer></footer>
+	<footer></footer>	
 	<script type="text/javascript">	$(function(){$('.top').load('resources/topnav.html');$('.sidebar').load('resources/sidebar.html');	});</script>
 </body>
 </html>

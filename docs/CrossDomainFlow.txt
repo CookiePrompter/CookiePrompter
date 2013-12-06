@@ -1,0 +1,8 @@
+Flow
+
+1. framet cookieprompter loades (B)
+2. hvis iframeParent er sat spoerger vi om cookie er sat: (B)
+3. - fortaeller parent at vi er der, og hvilket domain vi taler fra (B)
+4. - parent fortaeller childFrame hvad cookie-situationen er (A)
+5. - hvis cookies er godkendt loades scripts.
+

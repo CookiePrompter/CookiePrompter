@@ -26,6 +26,8 @@
 		}
 		CookiePrompter.init({
 				readMoreUrl: 'readmore.html',
+				iframeParent: 'http://domaina.dk',
+				enableLog: true,
 		        trackers: [{
 		            name: GoogleAnalyticsTracker,
 		            config: {
@@ -37,22 +39,22 @@
 		var hostingDomain = 'http://domaina.dk/';
 
 		// helper function to setup crossbrowser postMessage calls
-		function subscribeToPostMessage(func){
-		   if(func && typeof func ==='function'){
-		      var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
-		      var eventer = window[eventMethod];
-		      var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
-		      eventer(messageEvent,func,false);
-		   }
-		}
-
-		subscribeToPostMessage(function(msg){
-		   log('received from parent frame:');
-		   log(msg);
-		});
+		// function subscribeToPostMessage(func){
+		//    if(func && typeof func ==='function'){
+		//       var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+		//       var eventer = window[eventMethod];
+		//       var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+		//       eventer(messageEvent,func,false);
+		//    }
+		
+	
+		// subscribeToPostMessage(function(msg){
+		//    log('received from parent frame:');
+		//    log(msg);
+		// });
 
 		$('#postbtn').click(function(){
-			parent.postMessage('Message to parent frame',hostingDomain);  
+			//parent.postMessage('Message to parent frame',hostingDomain);  
 		});
 	</script>
 	<footer></footer>

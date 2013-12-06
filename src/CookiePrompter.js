@@ -3,6 +3,7 @@ var CookiePrompter = (function () {
     var NO_TRACK_VAL = 'n',
         OK_TRACK_VAL = 'y',
         TRACKING_COOKIE = 'cookieOptOut',
+        childdomain,
         trackers =[],
         config={}, // will get keys from defaults on init 
         defaults = { // will be copied into config on init
@@ -164,12 +165,44 @@ var CookiePrompter = (function () {
             return;
         }
 
+        if(config.iframeParent && config.iframeParent!==''){
+            log('letting parent frame at '+config.iframeParent +' run the show');
+            
+            parent.postMessage('1. Message to parent frame',config.iframeParent);  
+
+        }else{
+            handleCookieFlowLocally();
+        }
+
+        CrossDomainHandler.subscribeToPostMessage(function(msg){
+
+            var args = msg.data.split(':');
+            if(args.length===0){
+                return;
+            }
+            // 1. from child
+            if(args[0]==='prompt'){
+                log('child frame asking about cookie status');  
+                childdomain=msg.origin;
+                var childframe = $('#childframer')[0];
+                childframe.contentWindow.postMessage('cookiesAllowed:'+cookiesAllowed(),childdomain);
+            }else if(args[0]==='cookiesAllowed')
+            {
+                log('message from parent frame');
+            }
+
+            // 2. from parent  
+           log('received from frame: '+msg.origin);
+           log(msg);
+        });
+
+        config.onReady(config);
+    };
+
+
+    var handleCookieFlowLocally = function(){
         // check for cookie
-        var cookie = config.cookieMgr.readCookie(TRACKING_COOKIE);
-        log('tracking cookie found:');
-        log(cookie);
-
-
+        var cookie = cookieMgr.readCookie(TRACKING_COOKIE);
         if (cookie === NO_TRACK_VAL) {
             log('a) disabletracking cookie found. Not tracking');
         } else {
@@ -204,7 +237,7 @@ var CookiePrompter = (function () {
                 }
             }
         }
-        config.onReady(config);
+
     };
 
     var cookiesAllowed = function(){
