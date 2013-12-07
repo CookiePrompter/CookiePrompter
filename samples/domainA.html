@@ -24,7 +24,9 @@
 	<script type="text/javascript" src="../deploy/CookiePrompter.js"></script>
 	<script type="text/javascript">
 		CookiePrompter.init({
+				enableLog: true,
 				readMoreUrl: 'readmore.html',
+				childFrame: document.getElementById('childframer'),
 		        trackers: [{
 		            name: GoogleAnalyticsTracker,
 		            config: {
@@ -38,7 +40,7 @@
 			console.log(msg);
 		}
 
-		var childdomain = 'http://domainb.dk';
+		//var childdomain = 'http://domainb.dk';
 
 		// helper function to setup crossbrowser postMessage calls
 		// function subscribeToPostMessage(func){
@@ -51,22 +53,22 @@
 		// 	}
 		// }
 
-		function receiveMessage(msg){	
-			log('recieved msg from child frame:');
-			log(msg);
+		// function receiveMessage(msg){	
+		// 	log('recieved msg from child frame:');
+		// 	log(msg);
 
-			childdomain=msg.origin;
-			var childframe = $('#childframer')[0];
-			childframe.contentWindow.postMessage('cookiesAllowed:'+CookiePrompter.cookiesAllowed(),childdomain);
-		}
+		// 	childdomain=msg.origin;
+		// 	var childframe = $('#childframer')[0];
+		// 	childframe.contentWindow.postMessage('cookiesAllowed:'+CookiePrompter.cookiesAllowed(),childdomain);
+		// }
 
 		// subscribeToPostMessage(receiveMessage);
-		$(function(){
-			$('#postbtn').click(function(){
-				var childframe = $('#childframer')[0];
-				childframe.contentWindow.postMessage('info from parent about cookiestatus',childdomain);
-			});
-		});
+		// $(function(){
+		// 	$('#postbtn').click(function(){
+		// 		var childframe = $('#childframer')[0];
+		// 		childframe.contentWindow.postMessage('info from parent about cookiestatus',childdomain);
+		// 	});
+		// });
 
 	</script>
 	<footer></footer>	

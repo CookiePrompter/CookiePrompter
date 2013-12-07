@@ -3,7 +3,7 @@ var CookiePrompter = (function () {
     var NO_TRACK_VAL = 'n',
         OK_TRACK_VAL = 'y',
         TRACKING_COOKIE = 'cookieOptOut',
-        childdomain,
+        childdomain,childFrame,
         trackers =[],
         config={}, // will get keys from defaults on init 
         defaults = { // will be copied into config on init
@@ -166,34 +166,45 @@ var CookiePrompter = (function () {
         }
 
         if(config.iframeParent && config.iframeParent!==''){
+            // cross domain iframe CHILD logic
             log('letting parent frame at '+config.iframeParent +' run the show');
+
+            // listen for parent messages
+            CrossDomainHandler.subscribeToPostMessage(function(msg){
+                if(msg.orgin!==config.iframe){
+                    log('ignoring msg, not from valid domain. Expected '+config.iframe +' but was contacted by '+msg.orgin);
+                    return;
+                }
+                var args = msg.data.split(':');
+                if(args.length<2){return;}
+                if(args[0]=='cookiesAllowed' && args[1]=='true'){
+                    // inject cookies 
+                    log('cookies are accepted, so lets inject them!');
+                    insertTrackingCode();
+                }else{
+                    log('parent says no to cookies. ');
+                }
+            });
+
+
             
-            parent.postMessage('1. Message to parent frame',config.iframeParent);  
+            parent.postMessage('prompt',config.iframeParent);  
 
         }else{
             handleCookieFlowLocally();
         }
-
+    
+        // Cross Domain iframe PARENT logic
+        // listen to childframes asking for cookie status
         CrossDomainHandler.subscribeToPostMessage(function(msg){
-
-            var args = msg.data.split(':');
-            if(args.length===0){
-                return;
-            }
-            // 1. from child
-            if(args[0]==='prompt'){
+           log(msg);
+            // Only handle prompts from children
+            if(msg.data==='prompt'){
                 log('child frame asking about cookie status');  
                 childdomain=msg.origin;
-                var childframe = $('#childframer')[0];
-                childframe.contentWindow.postMessage('cookiesAllowed:'+cookiesAllowed(),childdomain);
-            }else if(args[0]==='cookiesAllowed')
-            {
-                log('message from parent frame');
+                if(typeof config.childFrame ==='undefined'){alert('CookiePrompter ChildFrame not set\n(Was contaced by child)');}    
+                config.childFrame.contentWindow.postMessage('cookiesAllowed:'+cookiesAllowed(),childdomain);
             }
-
-            // 2. from parent  
-           log('received from frame: '+msg.origin);
-           log(msg);
         });
 
         config.onReady(config);
