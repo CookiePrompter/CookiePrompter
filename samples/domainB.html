@@ -11,10 +11,8 @@
 	<div class="top"></div>
 	<div class="row-fluid">
 		<div class="span12">
-			<h1>Domain B: Childframe</h1>
-		
-			<button id="postbtn">Send to parent</button>
-
+			<h1>DomainB.dk: Childframe</h1>
+			<p>NB: Denne side skal afvikles fra domainb.dk, sat op i din <em>hosts</em> fil</p>
 		</div>
 	</div>
 	<script type="text/javascript" src="resources/js/jquery.js"></script>
@@ -35,27 +33,6 @@
 		            }
 		        }]
 		    });
-
-		//var hostingDomain = 'http://domaina.dk/';
-
-		// helper function to setup crossbrowser postMessage calls
-		// function subscribeToPostMessage(func){
-		//    if(func && typeof func ==='function'){
-		//       var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
-		//       var eventer = window[eventMethod];
-		//       var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
-		//       eventer(messageEvent,func,false);
-		//    }
-		
-	
-		// subscribeToPostMessage(function(msg){
-		//    log('received from parent frame:');
-		//    log(msg);
-		// });
-
-		$('#postbtn').click(function(){
-			//parent.postMessage('Message to parent frame',hostingDomain);  
-		});
 	</script>
 	<footer></footer>
 </body>

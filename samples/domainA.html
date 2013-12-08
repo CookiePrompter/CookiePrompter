@@ -12,8 +12,9 @@
 	<div class="row-fluid">
 		<div class="span2 sidebar"></div>
 		<div class="span10">
-			<h1>Domain A: Parent</h1>
-			<button id="postbtn">Send to child</button> <br>
+			<h1>DomainA.dk: Parent</h1>
+			<p>NB: Denne side skal afvikles fra domaina.dk, sat op i din <em>hosts</em> fil</p>
+			<p>Hvis du gerne vil se, hvad der foregår, så kig i din javascript console -- der kan du se, hvordan de to frames kommunikerer sammen om cookies.</p>
 			<iframe id="childframer" src="http://domainb.dk/samples/domainB.html?sddfs" width="800" height="800"></iframe>
 
 
@@ -35,41 +36,9 @@
 		        }]
 		    });
 
-
 		var log = function (msg){
 			console.log(msg);
 		}
-
-		//var childdomain = 'http://domainb.dk';
-
-		// helper function to setup crossbrowser postMessage calls
-		// function subscribeToPostMessage(func){
-		// 	log('setting up postmsg listeneer');
-		// 	if(func && typeof func ==='function'){
-		// 		var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
-		// 		var eventer = window[eventMethod];
-		// 		var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
-		// 		eventer(messageEvent,func,false);
-		// 	}
-		// }
-
-		// function receiveMessage(msg){	
-		// 	log('recieved msg from child frame:');
-		// 	log(msg);
-
-		// 	childdomain=msg.origin;
-		// 	var childframe = $('#childframer')[0];
-		// 	childframe.contentWindow.postMessage('cookiesAllowed:'+CookiePrompter.cookiesAllowed(),childdomain);
-		// }
-
-		// subscribeToPostMessage(receiveMessage);
-		// $(function(){
-		// 	$('#postbtn').click(function(){
-		// 		var childframe = $('#childframer')[0];
-		// 		childframe.contentWindow.postMessage('info from parent about cookiestatus',childdomain);
-		// 	});
-		// });
-
 	</script>
 	<footer></footer>	
 	<script type="text/javascript">	$(function(){$('.top').load('resources/topnav.html');$('.sidebar').load('resources/sidebar.html');	});</script>

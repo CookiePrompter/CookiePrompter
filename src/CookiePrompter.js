@@ -166,38 +166,21 @@ var CookiePrompter = (function () {
         }
 
         if(config.iframeParent && config.iframeParent!==''){
-            // cross domain iframe CHILD logic
-            log('letting parent frame at '+config.iframeParent +' run the show');
-
-            // listen for parent messages
-            CrossDomainHandler.subscribeToPostMessage(function(msg){
-                if(msg.orgin!==config.iframe){
-                    log('ignoring msg, not from valid domain. Expected '+config.iframe +' but was contacted by '+msg.orgin);
-                    return;
-                }
-                var args = msg.data.split(':');
-                if(args.length<2){return;}
-                if(args[0]=='cookiesAllowed' && args[1]=='true'){
-                    // inject cookies 
-                    log('cookies are accepted, so lets inject them!');
-                    insertTrackingCode();
-                }else{
-                    log('parent says no to cookies. ');
-                }
-            });
-
-
-            
-            parent.postMessage('prompt',config.iframeParent);  
-
+            deferCookieDecisionsToParentFrame();
         }else{
             handleCookieFlowLocally();
         }
+        
+        listenForPromptsFromChildFrames();    
+
+        config.onReady(config);
+    };
     
+    var listenForPromptsFromChildFrames = function(){
         // Cross Domain iframe PARENT logic
         // listen to childframes asking for cookie status
         CrossDomainHandler.subscribeToPostMessage(function(msg){
-           log(msg);
+            log(msg);
             // Only handle prompts from children
             if(msg.data==='prompt'){
                 log('child frame asking about cookie status');  
@@ -206,8 +189,31 @@ var CookiePrompter = (function () {
                 config.childFrame.contentWindow.postMessage('cookiesAllowed:'+cookiesAllowed(),childdomain);
             }
         });
+    };
 
-        config.onReady(config);
+    var deferCookieDecisionsToParentFrame = function(){
+        // cross domain iframe CHILD logic
+        log('letting parent frame at '+config.iframeParent +' run the show');
+
+        // listen for parent messages
+        CrossDomainHandler.subscribeToPostMessage(function(msg){
+            log(msg);
+            if(msg.origin!==config.iframeParent){
+                log('ignoring msg, not from valid domain. Expected '+config.iframeParent +' but was contacted by '+msg.origin);
+                return;
+            }
+            var args = msg.data.split(':');
+            if(args.length<2){return;}
+            if(args[0]=='cookiesAllowed' && args[1]=='true'){
+                // inject cookies 
+                log('cookies are accepted, so lets inject them!');
+                insertTrackingCode();
+            }else{
+                log('parent says no to cookies. ');
+            }
+        });
+
+        parent.postMessage('prompt',config.iframeParent);  
     };
 
 
