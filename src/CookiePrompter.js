@@ -195,10 +195,10 @@ var CookiePrompter = (function () {
         // listen for parent messages
         CrossDomainHandler.subscribeToPostMessage(function(msg){
             
-            if(msg.origin!==config.iframeParent){
-                log('ignoring msg, not from valid domain. Expected '+config.iframeParent +' but was contacted by '+msg.origin);
-                return;
-            }
+            // if(msg.origin!==config.iframeParent){
+            //     log('ignoring msg, not from valid domain. Expected '+config.iframeParent +' but was contacted by '+msg.origin);
+            //     return;
+            // }
             var args = msg.data.split(':');
             if(args.length<2){return;}
             log(msg);
