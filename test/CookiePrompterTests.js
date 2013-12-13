@@ -26,12 +26,12 @@ test('OnOptOut callback can be null',function(){
 });
 
 
-test('EnableLog will set individually for each init',function(){
+test('config keys will be set individually for each init',function(){
     expect(4);
     CookiePrompter.init({
-        enableLog: true,
+        trackLandingPage: true,
         onReady: function(cfg){
-            ok(cfg.enableLog===true);
+            ok(cfg.trackLandingPage===true);
         },
         trackers: [{
             name: TestTracker,
@@ -45,7 +45,7 @@ test('EnableLog will set individually for each init',function(){
 
     CookiePrompter.init({
         onReady: function(cfg){
-            ok(cfg.enableLog===false);
+            ok(cfg.trackLandingPage===false);
         },
         trackers: [{
             name: TestTracker,
