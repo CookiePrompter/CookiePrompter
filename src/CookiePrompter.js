@@ -23,7 +23,14 @@ var CookiePrompter = (function () {
             },
             enableLog: false,
             cameFromSameDomain: function(doc){
-                return doc.referrer !== null && ~doc.referrer.indexOf(doc.location.host);
+                if(doc.referrer === null || typeof doc.referrer === 'undefined' ){return;}
+                var indexAfterProtocolAndHostName = doc.referrer.indexOf('/',doc.referrer.indexOf('//')+2);
+                var indexOfHostName = doc.referrer.indexOf(doc.location.host);
+                if(indexOfHostName===-1 || indexOfHostName>indexAfterProtocolAndHostName){
+                    return false;
+                }else{
+                    return true;
+                }
             },
             onOptOut: function(pageHref){
                 log('opting out from page: '+pageHref);
