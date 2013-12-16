@@ -97,7 +97,7 @@ test('TestTracker will not inject if first visit', function() {
     CookiePrompter.removeCookies();
     CookieMgr.eraseCookie('cookieOptOut');
     CookiePrompter.init({
-        cameFromSameDomain: function(doc) { return false; },
+        referrerHandler: OtherDomainReferrerHandler,
         trackers: [{
             name: TestTracker,
             config: {
@@ -110,11 +110,14 @@ test('TestTracker will not inject if first visit', function() {
     ok(el === null, 'Code injected, but should not have been');
 });
 
+
+
 test('TestTracker will inject code if referrer from same domain', function() {
     CookiePrompter.removeCookies();
     CookieMgr.eraseCookie('cookieOptOut');
     CookiePrompter.init({
-        cameFromSameDomain: function(doc) { return true; },
+        referrerHandler: SameDomainReferrerHandler
+    ,
         trackers: [{
             name: TestTracker,
             config: {
@@ -127,89 +130,11 @@ test('TestTracker will inject code if referrer from same domain', function() {
     ok(el, 'Code not injected, but should not have been');
 });
 
-
-test('CameFromSameDomain will return true when domain is referrer',function(){
-    CookiePrompter.removeCookies();
-    CookieMgr.eraseCookie('cookieOptOut');
-    expect(1);
-        CookiePrompter.init({
-        onReady: function(cfg){
-            var doc = {};
-            doc.referrer = 'http://mydomain.dk/testuri';
-            doc.location = {};
-            doc.location.host = 'mydomain.dk';
-            ok(cfg.cameFromSameDomain(doc));
-        }
-    });
-});
-
-test('CameFromSameDomain will return false on empty referrer',function(){
-    CookiePrompter.removeCookies();
-    CookieMgr.eraseCookie('cookieOptOut');
-    expect(1);
-        CookiePrompter.init({
-        onReady: function(cfg){
-            var doc = {};
-            doc.referrer = '';
-            doc.location = {};
-            doc.location.host = 'mydomain.dk';
-            ok(!cfg.cameFromSameDomain(doc));
-        }
-    });
-});
-
-test('CameFromSameDomain will return false on undefined referrer',function(){
-    CookiePrompter.removeCookies();
-    CookieMgr.eraseCookie('cookieOptOut');
-    expect(1);
-        CookiePrompter.init({
-        onReady: function(cfg){
-            var doc = {};
-            doc.location = {};
-            doc.location.host = 'mydomain.dk';
-            ok(!cfg.cameFromSameDomain(doc));
-        }
-    });
-});
-
-test('CameFromSameDomain will return false when referrer is other plain domain',function(){
-    expect(1);
-    CookiePrompter.removeCookies();
-    CookieMgr.eraseCookie('cookieOptOut');
-        CookiePrompter.init({
-        onReady: function(cfg){
-            var doc = {};
-            doc.referrer = 'http://otherdomain.dk/testuri';
-                doc.location = {};
-            doc.location.host = 'mydomain.dk';
-            ok(!cfg.cameFromSameDomain(doc));
-        }
-    });
-});
-
-test('CameFromSameDomain will return false when domain is in querystring',function(){
-    CookiePrompter.removeCookies();
-    CookieMgr.eraseCookie('cookieOptOut');
-    expect(1);
-        CookiePrompter.init({
-        onReady: function(cfg){
-            var doc = {};
-            doc.referrer = 'http://www.google.dk/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&sqi=2&ved=0CC0QFjAA&url=http%3A%2F%2Ferhvervsstyrelsen.dk%2F&ei=3hSrUrCBG83bsgbV-YH4BQ&usg=AFQjCNFoH1Gphl01QyAn3HXqe-_pqNhFHQ&bvm=bv.57967247,d.Yms';
-            doc.location = {};
-            doc.location.host = 'erhvervsstyrelsen.dk';
-            ok(!cfg.cameFromSameDomain(doc));
-        }
-    });
-});
-
-
-
-
 test('Explicit consent will be respected even if from same domain', function() {
     CookiePrompter.removeCookies();
     CookieMgr.eraseCookie('cookieOptOut');
     CookiePrompter.init({
-        cameFromSameDomain: function(doc) { return true; },
+        referrerHandler: SameDomainReferrerHandler,
         explicitAccept: true,
         trackers: [{
             name: TestTracker,

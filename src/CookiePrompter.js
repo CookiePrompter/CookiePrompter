@@ -5,7 +5,7 @@ var CookiePrompter = (function () {
         TRACKING_COOKIE = 'cookieOptOut',
         cookieMgr = CookieMgr,
         trackers =[],
-        config={},
+        config={}, // will get keys from defaults on init 
         defaults = { // will be copied into config on init
             explicitAccept: false,
             trackLandingPage: false,
@@ -22,20 +22,11 @@ var CookiePrompter = (function () {
                 'inlinestyleInner': 'max-width:960px;margin-left:auto;margin-right:auto;'
             },
             enableLog: false,
-            cameFromSameDomain: function(doc){
-                if(doc.referrer === null || typeof doc.referrer === 'undefined' ){return;}
-                var indexAfterProtocolAndHostName = doc.referrer.indexOf('/',doc.referrer.indexOf('//')+2);
-                var indexOfHostName = doc.referrer.indexOf(doc.location.host);
-                if(indexOfHostName===-1 || indexOfHostName>indexAfterProtocolAndHostName){
-                    return false;
-                }else{
-                    return true;
-                }
-            },
             onOptOut: function(pageHref){
                 log('opting out from page: '+pageHref);
             },
-            onReady: function(cfg){}
+            onReady: function(cfg){},
+            referrerHandler: ReferrerHandler
         };
 
     var log = function (msg) {
@@ -179,7 +170,7 @@ var CookiePrompter = (function () {
                 if(config.explicitAccept===true){
                     renderCookieprompt();
                 }else{
-                    if (config.cameFromSameDomain(document)) {
+                    if (config.referrerHandler.cameFromSameDomain(document)) {
                         log(" c) referrer found from same domain, setting cookie and tracking");
                         cookieMgr.createCookie(TRACKING_COOKIE, OK_TRACK_VAL, 30);
                         insertTrackingCode();
