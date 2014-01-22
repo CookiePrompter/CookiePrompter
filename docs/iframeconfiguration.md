@@ -12,13 +12,6 @@ Dvs, at hvis man f.eks. skal have lagt en side fra http://domainb.dk ind i en si
 Dette gøres ved at fortælle CookiePrompter hvilket domæne siden bliver framet ind i:
 	iframeParent: 'http://domaina.dk'
 
-2) Man i den yderste side, hvorpå framen ligger, fortæller CookiePrompter, hvilken iframe den skal kommunikere med.
-Dette gøres ved at give iframen som DOM element til CookiePrompter init:
-	childFrame: document.getElementById('childframer')
-
-
-
-
 
 EKSEMPEL
 ===============
@@ -40,7 +33,6 @@ CookiePrompter.init({
 Den yderste side (http://domaina.dk/samples/domainA.html):
 
 CookiePrompter.init({
-	childFrame: document.getElementById('childframer'),
     trackers: [{
         name: GoogleAnalyticsTracker,
         config: {
