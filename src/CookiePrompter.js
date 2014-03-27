@@ -217,7 +217,7 @@ var CookiePrompter = (function () {
 
     var handleCookieFlowLocally = function(){
         // check for cookie
-        var cookie = cookieMgr.readCookie(TRACKING_COOKIE);
+        var cookie = config.cookieMgr.readCookie(TRACKING_COOKIE);
         if (cookie === NO_TRACK_VAL) {
             log('a) disabletracking cookie found. Not tracking');
         } else {
