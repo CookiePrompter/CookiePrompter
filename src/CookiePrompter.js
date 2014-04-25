@@ -32,6 +32,10 @@ var CookiePrompter = (function () {
 
     var log = function (msg) {
         if (config.enableLog && window.console) {
+            if(config.iframeParent && config.iframeParent!==''){
+                var host = window.location.hostname;                
+                console.log(host + ' in iframe:');
+            }
             console.log(msg);
         }
     };
@@ -256,7 +260,7 @@ var CookiePrompter = (function () {
     };
 
     var cookiesAllowed = function(){
-        var cookie = cookieMgr.readCookie(TRACKING_COOKIE);
+        var cookie = config.cookieMgr.readCookie(TRACKING_COOKIE);
         return cookie === OK_TRACK_VAL;
     };
 

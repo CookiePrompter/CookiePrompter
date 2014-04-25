@@ -160,6 +160,7 @@ test("Cookie will use provided expirydays when overridden",function(){
     })();
 
     CookiePrompter.init({
+        enableLog:false,
         expiryDays:45,
         cookieMgr:fakeCookieMgr,
         referrerHandler: SameDomainReferrerHandler,
@@ -253,3 +254,25 @@ test('Explicit consent will be respected even if from same domain', function() {
     var el = document.getElementById('h1header');
     ok(el === null, 'Code injected, but should not have been');
 });
+
+
+test('CookiePrompter.cookiesAllowed will ask CookieMgr if OK cookie has been set',function(){
+    var fakeCookieMgr = (function(){
+        return{
+            createCookie:function(name,value,days){
+                throw "Should not create cookie, when it exists";
+            },
+            readCookie:function(){
+                return "y";
+            }
+        };
+    })();
+
+    CookiePrompter.init({
+        referrerHandler: SameDomainReferrerHandler,
+        cookieMgr: fakeCookieMgr,
+    });
+
+    ok(CookiePrompter.cookiesAllowed());
+});
+
