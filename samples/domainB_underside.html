@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="da">
 <head>
-	<title>Domain A: Parent</title>
+	<title>Domain B: Child</title>
 	  <meta charset="utf-8">
 	   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	  <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css">
@@ -10,36 +10,33 @@
 <body>
 	<div class="top"></div>
 	<div class="row-fluid">
-		<div class="span2 sidebar"></div>
-		<div class="span10">
-			<h1>DomainA.dk: Parent</h1>
-			<p>NB: Denne side skal afvikles fra domaina.dk, sat op i din <em>hosts</em> fil</p>
-			<p>Hvis du gerne vil se, hvad der foregår, så kig i din javascript console -- der kan du se, hvordan de to frames kommunikerer sammen om cookies.</p>
-			<iframe id="childframer" src="https://domainb.local.com/samples/domainB.html?sddfs" width="800" height="800"></iframe>
-
-
-
+		<div class="span12">
+			<h1>DomainB.dk: Childframe (UNDERSIDE)</h1>
+			<p>Dette er en underside til DomainB, der skal synliggøre, hvornår der navigeres mellem sider på samme domæne. Dette vil trigge en implicit accept.</p>
+			<p>NB: Denne side skal afvikles fra domainb.dk, sat op i din <em>hosts</em> fil</p>
 		</div>
 	</div>
 	<script type="text/javascript" src="resources/js/jquery.js"></script>
 	<script type="text/javascript" src="../deploy/CookiePrompter.js"></script>
 	<script type="text/javascript">
+
+		var log = function (msg){
+			var url = window.location.href;
+			console.log(url + ": " +msg);
+		}
 		CookiePrompter.init({
-				enableLog: true,
 				readMoreUrl: 'readmore.html',
-				trackers: [{
+				iframeParent: 'http://domaina.local.com',
+				//iframeParent: '*',
+				enableLog: true,
+		        trackers: [{
 		            name: GoogleAnalyticsTracker,
 		            config: {
 		                account: '1234'
 		            }
 		        }]
 		    });
-
-		var log = function (msg){
-			console.log(msg);
-		}
 	</script>
-	<footer></footer>	
-	<script type="text/javascript">	$(function(){$('.top').load('resources/topnav.html');$('.sidebar').load('resources/sidebar.html');	});</script>
+	<footer></footer>
 </body>
 </html>

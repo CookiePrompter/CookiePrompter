@@ -3,7 +3,6 @@ var CookiePrompter = (function () {
     var NO_TRACK_VAL = 'n',
         OK_TRACK_VAL = 'y',
         TRACKING_COOKIE = 'cookieOptOut',
-        trackers =[],
         config={}, // will get keys from defaults on init 
         defaults = { // will be copied into config on init
             explicitAccept: false,
@@ -27,6 +26,8 @@ var CookiePrompter = (function () {
             },
             onReady: function(cfg){},
             referrerHandler: ReferrerHandler,
+            trackerManager : new TrackerManager(),
+            iframeCommunicator: new IFrameCommunicator(),
             cookieMgr: CookieMgr
         };
 
@@ -53,9 +54,7 @@ var CookiePrompter = (function () {
     };
     
     var acceptBtnClick = function(){
-        config.cookieMgr.createCookie(TRACKING_COOKIE, OK_TRACK_VAL, config.expiryDays);
-        insertTrackingCode();
-        removePrompt();
+        insertCookieRemovePromptAndInsertTrackers();
         return false;
     };
 
@@ -128,11 +127,7 @@ var CookiePrompter = (function () {
     };
 
     var insertTrackingCode = function (cfg) {
-        log('inserting tracking code for '+trackers.length+ ' trackers');
-        for (var i = 0; i < trackers.length; i++) {
-            var t = trackers[i];
-            t.injectCode(cfg);
-        }
+        config.trackerManager.injectTrackers(cfg);
     };
 
     var init = function (opts) {
@@ -148,15 +143,8 @@ var CookiePrompter = (function () {
 
         log('init');
 
-        trackers = [];
         if (opts.trackers) {
-            for (var i = 0; i < opts.trackers.length; i++) {
-                var tracker = opts.trackers[i].name;
-                log(tracker);
-                var trackerConfig =opts.trackers[i].config;
-                tracker.init(trackerConfig);
-                trackers.push(tracker); 
-            }
+            config.trackerManager.addTrackers(opts.trackers);
         }else{
             log('no trackers added. You would probably want at least one.');
         }
@@ -168,53 +156,33 @@ var CookiePrompter = (function () {
             return;
         }
 
+        log('setting cookiesAllowed func on iframeCommunicator:');
+        
+        config.iframeCommunicator.cookiesAllowed =cookiesAllowed;
+        config.iframeCommunicator.trackerManager = config.trackerManager;
+        config.iframeCommunicator.referrerHandler =ReferrerHandler;
+
         if(config.iframeParent && config.iframeParent!==''){
+            config.iframeCommunicator.iframeParent = config.iframeParent;
             deferCookieDecisionsToParentFrame();
+
         }else{
             handleCookieFlowLocally();
         }
-        
-        listenForPromptsFromChildFrames();    
 
+        config.iframeCommunicator.listenToChild();
         config.onReady(config);
     };
-    
-    var listenForPromptsFromChildFrames = function(){
-        // Cross Domain iframe PARENT logic
-        // listen to childframes asking for cookie status
-        CrossDomainHandler.subscribeToPostMessage(function(msg){
-            // Only handle prompts from children
-            if(msg.data==='prompt'){
-                log(msg);
-                log('child frame asking about cookie status');  
-                msg.source.postMessage('cookiesAllowed:'+cookiesAllowed(),msg.origin);
-            }
-        });
-    };
+   
 
     var deferCookieDecisionsToParentFrame = function(){
         // cross domain iframe CHILD logic
         log('letting parent frame at '+config.iframeParent +' run the show');
 
-        // listen for parent messages
-        CrossDomainHandler.subscribeToPostMessage(function(msg){
-            
-            // if(msg.origin!==config.iframeParent){
-            //     log('ignoring msg, not from valid domain. Expected '+config.iframeParent +' but was contacted by '+msg.origin);
-            //     return;
-            // }
-            var args = msg.data.split(':');
-            if(args.length<2){return;}
-            log(msg);
-            if(args[0]=='cookiesAllowed' && args[1]=='true'){
-                // inject cookies 
-                log('cookies are accepted, so lets inject them!');
-                insertTrackingCode();
-            }else{
-                log('parent says no to cookies. ');
-            }
-        });
+        // listen for messages from iframeParent
+        config.iframeCommunicator.listenToParent();
 
+        // tell parent to tell us if we should accept cookies.
         parent.postMessage('prompt',config.iframeParent);  
     };
 
@@ -259,17 +227,27 @@ var CookiePrompter = (function () {
 
     };
 
+    var insertCookieRemovePromptAndInsertTrackers = function(){
+        config.cookieMgr.createCookie(TRACKING_COOKIE, OK_TRACK_VAL, config.expiryDays);
+        removePrompt();
+        insertTrackingCode();
+    };
+
     var cookiesAllowed = function(){
         var cookie = config.cookieMgr.readCookie(TRACKING_COOKIE);
-        return cookie === OK_TRACK_VAL;
+        switch(cookie){
+            case OK_TRACK_VAL:
+                return true;
+            case NO_TRACK_VAL:
+                return false;
+            default:
+                return "unset";
+        }
     };
 
     var removeCookies = function () {
         log('deleting cookies');
-        for (var i = 0; i < trackers.length; i++) {
-            trackers[i].eraseCookie();
-        }
-
+        config.trackerManager.eraseCookies();
         setNoTrackingCookie();
     };
 
@@ -278,6 +256,8 @@ var CookiePrompter = (function () {
         removeCookies: removeCookies,
         removePrompt:removePrompt,
         eraseCookiesAndRemovePrompt:eraseCookiesAndRemovePrompt, 
-        cookiesAllowed:cookiesAllowed 
+        cookiesAllowed:cookiesAllowed,
+        log:log,
+        insertCookieRemovePromptAndInsertTrackers: insertCookieRemovePromptAndInsertTrackers
     };
 })();

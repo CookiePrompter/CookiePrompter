@@ -43,6 +43,8 @@ module.exports = function(grunt) {
                 '<%= meta.srcPath %>ReferrerHandler.js',
                 '<%= meta.srcPath %>getElementsByClassName.polyfill.js',
                 '<%= meta.srcPath %>CrossDomainHandler.js',
+                '<%= meta.srcPath %>TrackerManager.js',
+                '<%= meta.srcPath %>IFrameCommunicator.js',
                 '<%= meta.srcPath %>CookiePrompter.js'],
                 dest: '<%= meta.deployPath %>CookiePrompter.js'
             }

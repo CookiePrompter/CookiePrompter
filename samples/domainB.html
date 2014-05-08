@@ -12,7 +12,9 @@
 	<div class="row-fluid">
 		<div class="span12">
 			<h1>DomainB.dk: Childframe</h1>
+			<p>Naviger videre til <a href="domainB_underside.html">DomainB underside</a> for at teste implicit accept i iframes</p>
 			<p>NB: Denne side skal afvikles fra domainb.dk, sat op i din <em>hosts</em> fil</p>
+		
 		</div>
 	</div>
 	<script type="text/javascript" src="resources/js/jquery.js"></script>
@@ -20,11 +22,13 @@
 	<script type="text/javascript">
 
 		var log = function (msg){
-			console.log(msg);
+			var url = window.location.href;
+			console.log(url + ": " +msg);
 		}
 		CookiePrompter.init({
 				readMoreUrl: 'readmore.html',
-				iframeParent: '*',
+				iframeParent: 'http://domaina.local.com',
+				//iframeParent: '*',
 				enableLog: true,
 		        trackers: [{
 		            name: GoogleAnalyticsTracker,

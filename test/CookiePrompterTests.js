@@ -273,6 +273,44 @@ test('CookiePrompter.cookiesAllowed will ask CookieMgr if OK cookie has been set
         cookieMgr: fakeCookieMgr,
     });
 
-    ok(CookiePrompter.cookiesAllowed());
+    equal(true,CookiePrompter.cookiesAllowed());
 });
 
+test('CookiePrompter.cookiesAllowed will return false if disallow cookie has been set',function(){
+    var fakeCookieMgr = (function(){
+        return{
+            createCookie:function(name,value,days){
+                throw "Should not create cookie, when it exists";
+            },
+            readCookie:function(){
+                return "n";
+            }
+        };
+    })();
+
+    CookiePrompter.init({
+        referrerHandler: SameDomainReferrerHandler,
+        cookieMgr: fakeCookieMgr,
+    });
+
+    equal(false,CookiePrompter.cookiesAllowed());
+});
+
+test('CookiePrompter.cookiesAllowed will return "unset" no cookie has been set',function(){
+    var fakeCookieMgr = (function(){
+        return{
+            createCookie:function(name,value,days){
+                throw "Should not create cookie, when it exists";
+            },
+            readCookie:function(){
+                return null;
+            }
+        };
+    })();
+
+    CookiePrompter.init({
+        cookieMgr: fakeCookieMgr
+    });
+
+    equal(CookiePrompter.cookiesAllowed(),"unset");
+});
