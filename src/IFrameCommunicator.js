@@ -19,7 +19,6 @@ IFrameCommunicator.prototype.listenToParent = function(){
 	});
 };	
 
-
 IFrameCommunicator.prototype.handleMsgFromChild = function(msg){
 	if(msg.data==='prompt'){
 		CookiePrompter.log(msg);
@@ -37,6 +36,7 @@ IFrameCommunicator.prototype.handleMsgFromParent = function(msg){
 	var args = msg.data.split(':');
 	if(args.length<2){return;}
 	CookiePrompter.log(msg);
+
 	// parent replying to our prompt
 	if(args[0]=='cookiesAllowed'){
 		switch(args[1]){
@@ -47,6 +47,7 @@ IFrameCommunicator.prototype.handleMsgFromParent = function(msg){
 				break;
 			case 'false':
 				CookiePrompter.log('parent says no to cookies. ');
+				this.trackerManager.eraseCookies();
 				break;
 			case 'unset':
 				// if the iframed page was navigated to
@@ -56,7 +57,6 @@ IFrameCommunicator.prototype.handleMsgFromParent = function(msg){
 				// - and we need to tell the parent to kill the prompt and set a cookie.
 				// After which we should insert the tracking cookie.
 				if(this.referrerHandler.cameFromSameDomain(document)){
-
 					CookiePrompter.log('child injecting trackers');
 					this.trackerManager.injectTrackers();
 					CookiePrompter.log('telling parent to accept and track');

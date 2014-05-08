@@ -48,14 +48,35 @@ test('handleMsgFromParent will inject trackers if cookiesAllowed = true',functio
 test('handleMsgFromParent will not inject trackers if cookiesAllowed = false',function(){
 	expect(1);
 	//handle message from parent will not use cookiesAllowed so we null that
-	var tm = {injectTrackers:function(){
-		throw "Should not injectTrackers when not allowed";
-	}};
+	var tm = {
+		injectTrackers:function(){
+			throw "Should not injectTrackers when not allowed";
+		},
+		eraseCookies: function(){}
+	};
 	var sut = new IFrameCommunicator(null,tm);
 	
 	var msgObject = {data:"cookiesAllowed:false"};
 	sut.handleMsgFromParent(msgObject);
 	ok(true);
+});
+
+test('handleMsgFromParent will deleteCookies if cookiesAllowed = false',function(){
+	expect(1);
+	//handle message from parent will not use cookiesAllowed so we null that
+	var tm = {
+		injectTrackers:function(){
+			throw "Should not injectTrackers when not allowed";
+		},
+		eraseCookies: function(){
+			ok(true);
+		}
+	};
+	var sut = new IFrameCommunicator(null,tm);
+	
+	var msgObject = {data:"cookiesAllowed:false"};
+	sut.handleMsgFromParent(msgObject);
+
 });
 
 
@@ -99,6 +120,16 @@ test('handleMsgFromChild given "acceptAndTrack" will deleteprompt, allowtracking
 	ok(true);
 });
 
+test('handleMsgFromParent when given "deleteCookies" it will delete cookies with trackerManager',function(){
+	var tm = {
+		eraseCookies: function(){
+			ok(true);
+		}
+	};
+	var sut = new IFrameCommunicator(null,tm,null);
+	var msgObject = {data:"deleteCookies:true"};
+	sut.handleMsgFromParent(msgObject);
+});
 
 test('handleMsgFromParent when cookiesAllowed = "unset" will check if iframe has been navigated to from same domain and if so, injectTrackers',function(){
 	expect(1);
