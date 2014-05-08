@@ -15,18 +15,24 @@ var CookieMgr = (function () {
         }
 
         if (value === '') {
-            // deleting cookies from www-domain, if set
+            // deleting cookies from subdomain
             document.cookie = name + "=" + value + expires + ";domain=" + window.location.hostname + "; path=/";
+            // deleting cookies from rootdomain, eg .local.com
+            if(window && window.location && window.location.hostname){
+                document.cookie = name + "=" + value + expires + ";domain=." + window.location.hostname.match(/[^\.]*\.[^.]*$/)[0]+ "; path=/";                
+            }
         }
 
         var domain = window.location.hostname.replace('www.', '');
-        
+
+
         if (domain === 'localhost') {
             document.cookie = name + "=" + value + expires + "; path=/";
         } else {
             document.cookie = name + "=" + value + expires + ";domain=" + domain + "; path=/";
         }
     },
+
     readCookie = function (name) {
         var nameEq = name + "=";
         var ca = document.cookie.split(';');
@@ -41,6 +47,8 @@ var CookieMgr = (function () {
     eraseCookie = function (name) {
         log('erasing cookie: ' + name);
         createCookie(name, "", -1);
+    
+        //document.cookie='$nmlv=;expires=Thu, 01 Jan 1970 00:00:00 GMT;domain=.local.com;path=/'
     };
 
     return { createCookie: createCookie, readCookie: readCookie, eraseCookie: eraseCookie };

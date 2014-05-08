@@ -1,6 +1,6 @@
 var NetMinersTracker = (function () {
     "use strict";
-    var netminersAccount,scriptLocation,enableLog = false;
+    var netminersAccount,scriptLocation,enableLog = false,cookieMgr=CookieMgr;
     var log = function (msg) {
         if (enableLog && window.console) {
             console.log(msg);
@@ -21,6 +21,13 @@ var NetMinersTracker = (function () {
         script.src = document.location.protocol + '//' + netminersAccount + '.netminers.dk/tracker/removecookies.ashx?n=' + Math.random();
         var s = document.getElementsByTagName('script')[0];
         s.parentNode.insertBefore(script, s);
+
+        cookieMgr.eraseCookie('$nmuid');
+        cookieMgr.eraseCookie('$nmlv');
+        cookieMgr.eraseCookie('$nmsid');
+        cookieMgr.eraseCookie('$nmvc');
+        cookieMgr.eraseCookie('vat_$netminers');
+
     };
 
     var init = function(cfg){
