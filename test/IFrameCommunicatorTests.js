@@ -120,16 +120,6 @@ test('handleMsgFromChild given "acceptAndTrack" will deleteprompt, allowtracking
 	ok(true);
 });
 
-test('handleMsgFromParent when given "deleteCookies" it will delete cookies with trackerManager',function(){
-	var tm = {
-		eraseCookies: function(){
-			ok(true);
-		}
-	};
-	var sut = new IFrameCommunicator(null,tm,null);
-	var msgObject = {data:"deleteCookies:true"};
-	sut.handleMsgFromParent(msgObject);
-});
 
 test('handleMsgFromParent when cookiesAllowed = "unset" will check if iframe has been navigated to from same domain and if so, injectTrackers',function(){
 	expect(1);
