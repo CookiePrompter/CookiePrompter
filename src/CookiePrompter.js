@@ -18,6 +18,7 @@ var CookiePrompter = (function () {
             textReadMore: 'Læs mere om cookies her',
             textAccept: 'Accepter cookies',
             textDontAccept: 'Accepter ikke Cookies',
+            textOKbutton: 'OK',
             styling: {
                 'inlinestyle': 'border-bottom:2px solid #000;padding: 12px 20px 0 20px;margin-bottom:12px;',
                 'inlinestyleInner': 'max-width:960px;margin-left:auto;margin-right:auto;'
@@ -108,7 +109,7 @@ var CookiePrompter = (function () {
             html.push('<p><a href="' + config.readMoreUrl + '#cookieprompt">' + config.textReadMore + '</a></p>');
         }
         if(config.showOKbutton){
-            html.push('<div class="cpButtons"><a href="#" class="cpAcceptBtn">OK</a></div>');
+            html.push('<div class="cpButtons"><a href="#" class="cpAcceptBtn">'+config.textOKbutton+'</a></div>');
         }
         if(config.explicitAccept){
             html.push('<div class="cpButtons"><a href="#" class="cpAcceptBtn">'+config.textAccept+'</a><a href="#" class="cpDontAcceptBtn">'+config.textDontAccept+'</a></div>');

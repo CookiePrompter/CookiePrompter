@@ -1,3 +1,11 @@
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
       }
+ .cpButtons a {
+    border: 1px #ccc solid;
+    background: #888;
+    padding: 2px;
+    margin: 2px;
+    border-radius: 4px;
+    color: white;
+}

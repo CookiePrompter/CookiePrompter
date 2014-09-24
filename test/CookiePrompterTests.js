@@ -287,6 +287,19 @@ test('Will not show OK button by default',function(){
     ok(okbtns.length===0,'Ok button was rendered, shouldnt be');
 });
 
+
+test('Default text on OK btn will be OK',function(){
+    CookiePrompter.init({showOKbutton:true});
+    var btn = document.getElementsByClassName('cpAcceptBtn')[0];
+    ok(btn.innerText==='OK','Text on OK button not OK. Literally.');
+});
+
+test('Supplied text for OK btn will be used',function(){
+    CookiePrompter.init({showOKbutton:true,textOKbutton:'yeah!'});
+    var btn = document.getElementsByClassName('cpAcceptBtn')[0];
+    ok(btn.innerText==='yeah!','Text on OK button was not taken from config, was "'+btn.innerText+'"');
+});
+
 test('Will not show explicitAccept buttons when not activated',function(){
     CookiePrompter.init({});
     var okbtns = document.getElementsByClassName('cpAcceptBtn');
