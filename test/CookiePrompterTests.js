@@ -1,28 +1,36 @@
 ﻿/// <reference path="../src/CookiePrompter.js"/>
 /// <reference path="resources/qunit.js" />
 
+
+function cleanup(){
+    var existingPrompts = document.getElementsByClassName('eksCookieContainer');
+    if(existingPrompts.length>0){
+        for(var i=0;i<existingPrompts.length;i++)
+            {
+                if(existingPrompts[i])
+                    existingPrompts[i].parentNode.removeChild(existingPrompts[i]);
+
+            };
+    }
+}
+
+
+
 module('CookiePrompter tests',{
     setup:function(){
-        var existingPrompts = document.getElementsByClassName('eksCookieContainer');
-        if(existingPrompts.length>0){
-            for(var i=0;i<existingPrompts.length;i++)
-                {
-                    if(existingPrompts[i])
-                        existingPrompts[i].parentNode.removeChild(existingPrompts[i]);
-
-                };
-        }
         CookiePrompter.init({enableLog:false}); // reset defaults
+        cleanup();
     },
     teardown: function(){
         CookieMgr.eraseCookie('cookieOptOut');
         CookiePrompter.init({enableLog:false}); // reset defaults
+        cleanup();
     }
 });
 
 test('Init can run', function() {
     CookiePrompter.init({});
-    notEqual(null, Document);
+    notEqual(null, document);
 });
 
 
@@ -252,4 +260,43 @@ test('Explicit consent will be respected even if from same domain', function() {
     });
     var el = document.getElementById('h1header');
     ok(el === null, 'Code injected, but should not have been');
+});
+
+test('will show cookieprompt if no cookies present',function(){
+    CookiePrompter.init({});
+    var cookiePrompt = document.getElementById('eksCookiePrompt');
+    ok(cookiePrompt,'CookiePrompt was not rendered');    
+});
+
+
+test('Will show OK button if given in config',function(){
+    CookiePrompter.init({showOKbutton: true});
+    var okbtns = document.getElementsByClassName('cpAcceptBtn');
+    ok(okbtns.length===1,'No ok button was rendered');
+});
+
+test('Will not show OK button when told not to',function(){
+    CookiePrompter.init({showOKbutton: false});
+    var okbtns = document.getElementsByClassName('cpAcceptBtn');
+    ok(okbtns.length===0,'Ok button was rendered, shouldnt be');
+});
+
+test('Will not show OK button by default',function(){
+    CookiePrompter.init({});
+    var okbtns = document.getElementsByClassName('cpAcceptBtn');
+    ok(okbtns.length===0,'Ok button was rendered, shouldnt be');
+});
+
+test('Will not show explicitAccept buttons when not activated',function(){
+    CookiePrompter.init({});
+    var okbtns = document.getElementsByClassName('cpAcceptBtn');
+    var nobtns= document.getElementsByClassName('cpDontAcceptBtn');
+    ok(okbtns.length===0 && nobtns.length===0,'Explicit accept buttons were rendered, shouldnt be');
+});
+
+test('Will show explicitAccept buttons when explicitAccept is set to true',function(){
+    CookiePrompter.init({explicitAccept:true});
+    var okbtns = document.getElementsByClassName('cpAcceptBtn');
+    var nobtns= document.getElementsByClassName('cpDontAcceptBtn');
+    ok(okbtns.length===1 && nobtns.length===1,'Explicit accept buttons were not rendered');
 });

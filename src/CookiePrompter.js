@@ -7,6 +7,7 @@ var CookiePrompter = (function () {
         config={}, // will get keys from defaults on init 
         defaults = { // will be copied into config on init
             explicitAccept: false,
+            showOKbutton: false,
             expiryDays: 365,
             trackLandingPage: false,
             readMoreUrl: '/',
@@ -106,8 +107,11 @@ var CookiePrompter = (function () {
         if (config.readMoreUrl && document.location.hash !== '#cookieprompt') {
             html.push('<p><a href="' + config.readMoreUrl + '#cookieprompt">' + config.textReadMore + '</a></p>');
         }
+        if(config.showOKbutton){
+            html.push('<div class="cpButtons"><a href="#" class="cpAcceptBtn">OK</a></div>');
+        }
         if(config.explicitAccept){
-            html.push('<div><a href="#" class="cpAcceptBtn">'+config.textAccept+'</a><a href="#" class="cpDontAcceptBtn">'+config.textDontAccept+'</a></div>');
+            html.push('<div class="cpButtons"><a href="#" class="cpAcceptBtn">'+config.textAccept+'</a><a href="#" class="cpDontAcceptBtn">'+config.textDontAccept+'</a></div>');
         }
         html.push('</div></div>');
         var body = document.getElementsByTagName('body')[0];
