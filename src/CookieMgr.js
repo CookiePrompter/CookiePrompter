@@ -1,10 +1,22 @@
 var CookieMgr = (function () {
     var enableLog = false;
+    var setCookieOnTopLevelDomain=false;
     var log = function(msg){
         if(enableLog && window.console){
             console.log(msg);
         }
     };
+
+
+        var getCookieDomain=function(hostname){
+            // strip www
+            var domain=hostname.replace('www.','');
+            if(setCookieOnTopLevelDomain){
+                domain = domain.replace(/[\w\d\-\.]*\.([\w\d\-]*\.\w{2,3})$/i,'$1');
+            }
+            return domain;
+        };
+
 
     var createCookie = function (name, value, days) {
         var expires = '';
@@ -19,7 +31,7 @@ var CookieMgr = (function () {
             document.cookie = name + "=" + value + expires + ";domain=" + window.location.hostname + "; path=/";
         }
 
-        var domain = window.location.hostname.replace('www.', '');
+        var domain = getCookieDomain(window.location.hostname);
         
         if (domain === 'localhost') {
             document.cookie = name + "=" + value + expires + "; path=/";
@@ -40,6 +52,9 @@ var CookieMgr = (function () {
         eraseCookie = function (name) {
             log('erasing cookie: ' + name);
             createCookie(name, "", -1);
+        },
+        init=function(opts){
+            setCookieOnTopLevelDomain=opts.setCookieOnTopLevelDomain;
         };
-    return { createCookie: createCookie, readCookie: readCookie, eraseCookie: eraseCookie };
+    return {init:init, createCookie: createCookie, readCookie: readCookie, eraseCookie: eraseCookie,getCookieDomain:getCookieDomain };
 })();

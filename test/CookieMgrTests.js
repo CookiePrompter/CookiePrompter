@@ -36,3 +36,40 @@ test('eraseCookie will delete cookie', function () {
     equal(saved, null);
 });
 
+
+
+test('www will be stripped from cookie domain',function(){
+    var domain = CookieMgr.getCookieDomain('www.mydomain.com');
+    equal(domain,'mydomain.com');
+});
+
+test('when on a subdomain the subdomain will stay in cookie domain',function(){
+    var domain = CookieMgr.getCookieDomain('sales.mydomain.com');
+    equal(domain,'sales.mydomain.com');
+})
+
+test('when forcingTLD on a subdomain the cookie domain will be the TLD',function(){
+    CookieMgr.init({setCookieOnTopLevelDomain:true});
+    var domain = CookieMgr.getCookieDomain('sales.mydomain.com');
+    equal(domain,'mydomain.com');
+})
+
+test('when forcingTLD on multiple subdomains the cookie domain will be the TLD',function(){
+    CookieMgr.init({setCookieOnTopLevelDomain:true});
+    var domain = CookieMgr.getCookieDomain('more.sales.mydomain.com');
+    equal(domain,'mydomain.com');
+})
+
+
+test('when forcingTLD on root domains the cookie domain will be the TLD',function(){
+    CookieMgr.init({setCookieOnTopLevelDomain:true});
+    var domain = CookieMgr.getCookieDomain('mydomain.com');
+    equal(domain,'mydomain.com');
+})
+
+test('when forcingTLD on a subdomain with special chars the cookie domain will be the TLD',function(){
+    CookieMgr.init({setCookieOnTopLevelDomain:true});
+    var domain = CookieMgr.getCookieDomain('sales22-monster.mydomain.com');
+    equal(domain,'mydomain.com');
+})
+

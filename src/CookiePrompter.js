@@ -6,6 +6,7 @@ var CookiePrompter = (function () {
         trackers =[],
         config={}, // will get keys from defaults on init 
         defaults = { // will be copied into config on init
+            setCookieOnTopLevelDomain:false,
             explicitAccept: false,
             showOKbutton: false,
             expiryDays: 365,
@@ -148,6 +149,8 @@ var CookiePrompter = (function () {
         }
 
         log('init');
+
+        config.cookieMgr.init(config.setCookieOnTopLevelDomain);
 
         trackers = [];
         if (opts.trackers) {

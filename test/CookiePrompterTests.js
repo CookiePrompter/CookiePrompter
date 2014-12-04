@@ -139,6 +139,7 @@ test("Implicit accept, no cookies and referer from same domain will set cookie",
 
     var fakeCookieMgr = (function(){
         return{
+            init:function(){},
             createCookie:function(name,value,days){
                 ok(true,"Expected cookie to be created");
             },
@@ -158,6 +159,8 @@ test("Cookie will use provided expirydays when overridden",function(){
 
     var fakeCookieMgr = (function(){
         return{
+            init:function(){},
+
             createCookie:function(name,value,days){
                 ok(days===45,"ExpiryDays not correctly provided");
             },
@@ -194,6 +197,8 @@ test('UnitTestTracker will inject code if referrer from same domain', function()
 test('Finding OK cookie will result in code injection', function() {
     var fakeCookieMgr = (function(){
         return{
+                        init:function(){},
+
             createCookie:function(name,value,days){
                 throw "Should not create cookie, when it exists";
             },
@@ -221,6 +226,8 @@ test('Finding OK cookie will result in code injection', function() {
 test('Finding OK cookie will result in code injection', function() {
     var fakeCookieMgr = (function(){
         return{
+                        init:function(){},
+
             createCookie:function(name,value,days){
                 throw "Should not create cookie, when it exists";
             },
