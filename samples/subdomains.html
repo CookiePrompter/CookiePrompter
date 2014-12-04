@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <title>CookiePrompter subdomains / Google Analytics Tracker</title>
+      <meta charset="utf-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="resources/css/samples.css">
+</head>
+<body> 
+    <div class="top"></div>
+    <div class="row-fluid">
+        <div class="span2 sidebar"></div>
+        <div class="span10">
+            <h1>Tracking på tværs af subdomains</h1>
+
+
+
+
+
+            <h2>Opsætning</h2>
+<p>Du skal ændre i din hosts fil, så domænerne <ul>
+    <li><a href="http://local.com/samples/subdomains.html">local.com</a> </li>
+    <li><a href="http://domaina.local.com/samples/subdomains.html">domaina.local.com</a> </li>
+    <li><a href="http://domainb.local.com/samples/subdomains.html">domainb.local.com</a> </li>
+</ul>
+Alle peger på cookieprompter home dir.
+
+</p>
+<p>
+Nu kan du teste navigation mellem main og sub domains
+</p>
+
+
+
+
+            <h2>Om at teste</h2>
+            <p>Hvis du gerne vil kontrollere at CookiePrompter opfører sig som den skal, skal du være opmærksom på, hvordan den virker.</p>
+                <ol>
+                    <li>Hvis du gerne vil kontrollere at scriptet bliver indsat/ikke indsat, kan du ikke lave en "vis kilde", da tracking scripts indsættes dynamisk og derfor kun kan ses gennem f.eks. Google Chrome DevTools og dens elements-tab.</li>
+                    <li>Hvis du sletter <code>cookieOptOut</code> cookien og derefter trykker på F5 for at vise prompten igen, kan det være at prompten ikke vises og at cookien bliver sat igen. Du skal sætte din cursor i browserens adresselinje og trykke på Enter for at få den ønskede effekt <br>(<small>dette skyldes at en F5 gentager det sidste request til siden, inkl referer information, som CookiePrompter bruger til at vurdere om du kommer fra en side på samme domæne</small>)</li>
+                    <li>Når du navigerer rundt mellem eksemplerne her, vil du altid skulle slette <code>cookieOptOut</code> cookien og indlæse den side du vil teste manuelt, hvis du tester implicit accept af cookies.</li>
+                </ol>    
+            
+        </div>
+    </div>
+    <script type="text/javascript" src="resources/js/jquery.js"></script>
+    <script src="resources/js/bootstrap.min.js"></script>
+    <script type="text/javascript"> $(function(){$('.top').load('resources/topnav.html');$('.sidebar').load('resources/sidebar.html');  });</script>
+
+
+<script type="text/javascript" src="../deploy/CookiePrompter.js"></script>
+    <script type="text/javascript">
+        CookiePrompter.init({
+                readMoreUrl: 'readmore.html',
+                enableLog:true,
+                trackers: [{
+                    name: GoogleAnalyticsTracker,
+                    config: {
+                        account: '1234'
+                    }
+                }]
+            });
+    </script>
+
+
+</body>
+</html>
