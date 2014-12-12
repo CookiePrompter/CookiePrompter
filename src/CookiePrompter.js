@@ -150,7 +150,7 @@ var CookiePrompter = (function () {
 
         log('init');
 
-        config.cookieMgr.init(config.setCookieOnTopLevelDomain);
+        config.cookieMgr.init({setCookieOnTopLevelDomain:config.setCookieOnTopLevelDomain});
 
         trackers = [];
         if (opts.trackers) {

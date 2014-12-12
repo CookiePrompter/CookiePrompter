@@ -1,5 +1,5 @@
 var CookieMgr = (function () {
-    var enableLog = false;
+    var enableLog = true;
     var setCookieOnTopLevelDomain=false;
     var log = function(msg){
         if(enableLog && window.console){
@@ -11,7 +11,9 @@ var CookieMgr = (function () {
         var getCookieDomain=function(hostname){
             // strip www
             var domain=hostname.replace('www.','');
+            log('setting cookie on toplevel domain:'+setCookieOnTopLevelDomain);
             if(setCookieOnTopLevelDomain){
+
                 domain = domain.replace(/[\w\d\-\.]*\.([\w\d\-]*\.\w{2,3})$/i,'$1');
             }
             return domain;
@@ -32,7 +34,7 @@ var CookieMgr = (function () {
         }
 
         var domain = getCookieDomain(window.location.hostname);
-        
+        log('setting cookie on '+domain);
         if (domain === 'localhost') {
             document.cookie = name + "=" + value + expires + "; path=/";
         } else {
@@ -54,6 +56,8 @@ var CookieMgr = (function () {
             createCookie(name, "", -1);
         },
         init=function(opts){
+            log('init cookiemgr:');
+            log(opts);
             setCookieOnTopLevelDomain=opts.setCookieOnTopLevelDomain;
         };
     return {init:init, createCookie: createCookie, readCookie: readCookie, eraseCookie: eraseCookie,getCookieDomain:getCookieDomain };

@@ -329,3 +329,35 @@ test('Will show explicitAccept buttons when explicitAccept is set to true', func
     var nobtns = document.getElementsByClassName('cpDontAcceptBtn');
     ok(okbtns.length === 1 && nobtns.length === 1, 'Explicit accept buttons were not rendered');
 });
+
+test('default setCookieOnTopLevelDomain will be passed on to cookieMgr', function() {
+    var fakeCookieMgr = (function() {
+        return {
+            init: function(opts) {
+                ok(opts && opts.setCookieOnTopLevelDomain===false,'setCookieOnTopLevelDomain is not on ')
+            },
+
+            createCookie: function(name, value, days) {},
+            readCookie: function() {
+                return null;
+            }
+        };
+    })();
+    CookiePrompter.init({cookieMgr:fakeCookieMgr});
+});
+
+test('setCookieOnTopLevelDomain on main init opts will be passed on to cookieMgr', function() {
+    var fakeCookieMgr = (function() {
+        return {
+            init: function(opts) {
+                ok(opts && opts.setCookieOnTopLevelDomain===true,'setCookieOnTopLevelDomain is not on ')
+            },
+
+            createCookie: function(name, value, days) {},
+            readCookie: function() {
+                return null;
+            }
+        };
+    })();
+    CookiePrompter.init({cookieMgr:fakeCookieMgr,setCookieOnTopLevelDomain:true});
+});
