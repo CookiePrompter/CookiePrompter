@@ -1,5 +1,5 @@
 var CookieMgr = (function () {
-    var enableLog = true;
+    var enableLog = false;
     var setCookieOnTopLevelDomain=false;
     var log = function(msg){
         if(enableLog && window.console){
