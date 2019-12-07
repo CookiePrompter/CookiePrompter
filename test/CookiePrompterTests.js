@@ -273,7 +273,7 @@ test('default setCookieOnTopLevelDomain will be passed on to cookieMgr', functio
     var fakeCookieMgr = (function () {
         return {
             init: function (opts) {
-                ok(opts && opts.setCookieOnTopLevelDomain === false, 'setCookieOnTopLevelDomain is not on ')
+                ok(opts && opts.setCookieOnTopLevelDomain === false, 'setCookieOnTopLevelDomain is not on ');
             },
 
             createCookie: function (name, value, days) {},
@@ -291,7 +291,7 @@ test('setCookieOnTopLevelDomain on main init opts will be passed on to cookieMgr
     var fakeCookieMgr = (function () {
         return {
             init: function (opts) {
-                ok(opts && opts.setCookieOnTopLevelDomain === true, 'setCookieOnTopLevelDomain is not on ')
+                ok(opts && opts.setCookieOnTopLevelDomain === true, 'setCookieOnTopLevelDomain is not on ');
             },
 
             createCookie: function (name, value, days) {},

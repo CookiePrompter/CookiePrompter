@@ -9,7 +9,7 @@ module('CookieMgr tests', {
 test('readCookie will return null on empty string', function () {
     var val = CookieMgr.readCookie('');
     equal(val, null);
-});;
+});
 
 test('readCookie will return null on null', function () {
     var val = CookieMgr.readCookie();
@@ -44,7 +44,7 @@ test('www will be stripped from cookie domain', function () {
 test('when on a subdomain the subdomain will stay in cookie domain', function () {
     var domain = CookieMgr.getCookieDomain('sales.mydomain.com');
     equal(domain, 'sales.mydomain.com');
-})
+});
 
 test('when forcingTLD on a subdomain the cookie domain will be the TLD', function () {
     CookieMgr.init({
@@ -52,7 +52,7 @@ test('when forcingTLD on a subdomain the cookie domain will be the TLD', functio
     });
     var domain = CookieMgr.getCookieDomain('sales.mydomain.com');
     equal(domain, 'mydomain.com');
-})
+});
 
 test('when forcingTLD on multiple subdomains the cookie domain will be the TLD', function () {
     CookieMgr.init({
@@ -60,7 +60,7 @@ test('when forcingTLD on multiple subdomains the cookie domain will be the TLD',
     });
     var domain = CookieMgr.getCookieDomain('more.sales.mydomain.com');
     equal(domain, 'mydomain.com');
-})
+});
 
 
 test('when forcingTLD on root domains the cookie domain will be the TLD', function () {
@@ -69,7 +69,7 @@ test('when forcingTLD on root domains the cookie domain will be the TLD', functi
     });
     var domain = CookieMgr.getCookieDomain('mydomain.com');
     equal(domain, 'mydomain.com');
-})
+});
 
 test('when forcingTLD on a subdomain with special chars the cookie domain will be the TLD', function () {
     CookieMgr.init({
@@ -77,4 +77,4 @@ test('when forcingTLD on a subdomain with special chars the cookie domain will b
     });
     var domain = CookieMgr.getCookieDomain('sales22-monster.mydomain.com');
     equal(domain, 'mydomain.com');
-})
+});
