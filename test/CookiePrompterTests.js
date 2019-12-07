@@ -55,9 +55,9 @@ test('OnOptOut callback can be null', function () {
 test('config keys will be set individually for each init', function () {
     expect(4);
     CookiePrompter.init({
-        trackLandingPage: true,
+        expiryDays: 120,
         onReady: function (cfg) {
-            ok(cfg.trackLandingPage === true);
+            ok(cfg.expiryDays === 120);
         },
         trackers: [{
             name: UnitTestTracker,
@@ -71,7 +71,7 @@ test('config keys will be set individually for each init', function () {
 
     CookiePrompter.init({
         onReady: function (cfg) {
-            ok(cfg.trackLandingPage === false);
+            ok(cfg.expiryDays === 180);
         },
         trackers: [{
             name: UnitTestTracker,
@@ -224,7 +224,6 @@ test('Finding OK cookie will result in code injection', function () {
 
 test('Explicit consent will be respected even if from same domain', function () {
     CookiePrompter.init({
-        explicitAccept: true,
         trackers: [{
             name: UnitTestTracker,
             config: {
@@ -253,20 +252,21 @@ test('Supplied text for OK btn will be used', function () {
     ok(btn.innerText === 'yeah!', 'Text on OK button was not taken from config, was "' + btn.innerText + '"');
 });
 
-test('Explicit accept - do not accept buttons are showed', function () {
-    CookiePrompter.init({});
+test('Both accept and do not acceptbuttons are showed', function () {
+    CookiePrompter.init({
+        textDontAccept: 'do not accept'
+    });
     var okbtns = document.getElementsByClassName('cpAcceptBtn');
     var nobtns = document.getElementsByClassName('cpDontAcceptBtn');
     ok(okbtns.length === 1 && nobtns.length === 1, 'Explicit accept buttons were not rendered, should be');
 });
 
-test('Will show explicitAccept buttons when explicitAccept is set to true', function () {
+test('When no dontaccepttext is set button will not be rendered', function () {
     CookiePrompter.init({
-        explicitAccept: true
+        textDontAccept: ''
     });
-    var okbtns = document.getElementsByClassName('cpAcceptBtn');
     var nobtns = document.getElementsByClassName('cpDontAcceptBtn');
-    ok(okbtns.length === 1 && nobtns.length === 1, 'Explicit accept buttons were not rendered');
+    ok(nobtns.length === 0, 'Do not accept-button should not be rendered. It was.');
 });
 
 test('default setCookieOnTopLevelDomain will be passed on to cookieMgr', function () {
