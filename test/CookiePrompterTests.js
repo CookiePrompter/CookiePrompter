@@ -9,11 +9,9 @@ function cleanup() {
             if (existingPrompts[i])
                 existingPrompts[i].parentNode.removeChild(existingPrompts[i]);
 
-        };
+        }
     }
 }
-
-
 
 module('CookiePrompter tests', {
     setup: function () {
@@ -123,7 +121,6 @@ test('UnitTestTracker is initialized', function () {
 
 test('UnitTestTracker will not inject if first visit', function () {
     CookiePrompter.init({
-        referrerHandler: OtherDomainReferrerHandler,
         trackers: [{
             name: UnitTestTracker,
             config: {
@@ -136,25 +133,6 @@ test('UnitTestTracker will not inject if first visit', function () {
 });
 
 
-test("Implicit accept, no cookies and referer from same domain will set cookie", function () {
-    expect(1);
-
-    var fakeCookieMgr = (function () {
-        return {
-            init: function () {},
-            createCookie: function (name, value, days) {
-                ok(true, "Expected cookie to be created");
-            },
-            readCookie: function () {}
-        };
-    })();
-
-    CookiePrompter.init({
-        cookieMgr: fakeCookieMgr,
-        referrerHandler: SameDomainReferrerHandler,
-    });
-});
-
 test("Cookie will use provided expirydays when overridden", function () {
     expect(1);
 
@@ -166,33 +144,29 @@ test("Cookie will use provided expirydays when overridden", function () {
                 ok(days === 45, "ExpiryDays not correctly provided");
             },
             readCookie: function () {
-                return null;
+                return ""; // not used
+            },
+            eraseCookie: function () {
+                // not used
             }
+
         };
     })();
 
     CookiePrompter.init({
         expiryDays: 45,
-        cookieMgr: fakeCookieMgr,
-        referrerHandler: SameDomainReferrerHandler,
-    });
-});
-
-
-test('UnitTestTracker will inject code if referrer from same domain', function () {
-    CookiePrompter.init({
-        referrerHandler: SameDomainReferrerHandler,
-        enableLog: false,
         trackers: [{
             name: UnitTestTracker,
             config: {
-                ready: function () {}
+                ready: function () {
+                    CookiePrompter.eraseCookiesAndRemovePrompt();
+                }
             }
-        }]
+        }],
+        cookieMgr: fakeCookieMgr
     });
-    var el = document.getElementById('h1header');
-    ok(el, 'Code not injected, but should have been');
 });
+
 
 test('Finding OK cookie will result in code injection', function () {
     var fakeCookieMgr = (function () {
@@ -208,7 +182,6 @@ test('Finding OK cookie will result in code injection', function () {
         };
     })();
     CookiePrompter.init({
-        referrerHandler: SameDomainReferrerHandler,
         cookieMgr: fakeCookieMgr,
         enableLog: false,
         trackers: [{
@@ -236,7 +209,6 @@ test('Finding OK cookie will result in code injection', function () {
         };
     })();
     CookiePrompter.init({
-        referrerHandler: SameDomainReferrerHandler,
         cookieMgr: fakeCookieMgr,
         enableLog: false,
         trackers: [{
@@ -252,7 +224,6 @@ test('Finding OK cookie will result in code injection', function () {
 
 test('Explicit consent will be respected even if from same domain', function () {
     CookiePrompter.init({
-        referrerHandler: SameDomainReferrerHandler,
         explicitAccept: true,
         trackers: [{
             name: UnitTestTracker,
@@ -274,51 +245,19 @@ test('will show cookieprompt if no cookies present', function () {
 });
 
 
-test('Will show OK button if given in config', function () {
-    CookiePrompter.init({
-        showOKbutton: true
-    });
-    var okbtns = document.getElementsByClassName('cpAcceptBtn');
-    ok(okbtns.length === 1, 'No ok button was rendered');
-});
-
-test('Will not show OK button when told not to', function () {
-    CookiePrompter.init({
-        showOKbutton: false
-    });
-    var okbtns = document.getElementsByClassName('cpAcceptBtn');
-    ok(okbtns.length === 0, 'Ok button was rendered, shouldnt be');
-});
-
-test('Will not show OK button by default', function () {
-    CookiePrompter.init({});
-    var okbtns = document.getElementsByClassName('cpAcceptBtn');
-    ok(okbtns.length === 0, 'Ok button was rendered, shouldnt be');
-});
-
-
-test('Default text on OK btn will be OK', function () {
-    CookiePrompter.init({
-        showOKbutton: true
-    });
-    var btn = document.getElementsByClassName('cpAcceptBtn')[0];
-    ok(btn.innerText === 'OK', 'Text on OK button not OK. Literally.');
-});
-
 test('Supplied text for OK btn will be used', function () {
     CookiePrompter.init({
-        showOKbutton: true,
-        textOKbutton: 'yeah!'
+        textAccept: 'yeah!'
     });
     var btn = document.getElementsByClassName('cpAcceptBtn')[0];
     ok(btn.innerText === 'yeah!', 'Text on OK button was not taken from config, was "' + btn.innerText + '"');
 });
 
-test('Will not show explicitAccept buttons when not activated', function () {
+test('Explicit accept - do not accept buttons are showed', function () {
     CookiePrompter.init({});
     var okbtns = document.getElementsByClassName('cpAcceptBtn');
     var nobtns = document.getElementsByClassName('cpDontAcceptBtn');
-    ok(okbtns.length === 0 && nobtns.length === 0, 'Explicit accept buttons were rendered, shouldnt be');
+    ok(okbtns.length === 1 && nobtns.length === 1, 'Explicit accept buttons were not rendered, should be');
 });
 
 test('Will show explicitAccept buttons when explicitAccept is set to true', function () {

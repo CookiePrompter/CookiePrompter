@@ -7,7 +7,6 @@ var CookieMgr = (function () {
         }
     };
 
-
     var getCookieDomain = function (hostname) {
         // strip www
         var domain = hostname.replace('www.', '');
@@ -18,7 +17,6 @@ var CookieMgr = (function () {
         }
         return domain;
     };
-
 
     var createCookie = function (name, value, days) {
             var expires = '';
@@ -36,9 +34,9 @@ var CookieMgr = (function () {
             var domain = getCookieDomain(window.location.hostname);
             log('setting cookie on ' + domain);
             if (domain === 'localhost') {
-                document.cookie = name + "=" + value + expires + "; path=/";
+                document.cookie = name + "=" + value + expires + "; path=/"+ ";SameSite=Strict";
             } else {
-                document.cookie = name + "=" + value + expires + ";domain=" + domain + "; path=/";
+                document.cookie = name + "=" + value + expires + ";domain=" + domain + "; path=/"+ ";SameSite=Strict";
             }
         },
         readCookie = function (name) {
@@ -60,6 +58,7 @@ var CookieMgr = (function () {
             log(opts);
             setCookieOnTopLevelDomain = opts.setCookieOnTopLevelDomain;
         };
+
     return {
         init: init,
         createCookie: createCookie,
