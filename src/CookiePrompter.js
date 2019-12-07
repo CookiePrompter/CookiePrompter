@@ -8,7 +8,6 @@ var CookiePrompter = (function () {
         defaults = { // will be copied into config on init
             setCookieOnTopLevelDomain: false,
             expiryDays: 180,
-            trackLandingPage: false,
             readMoreUrl: '/',
             textHeader: 'Vi samler statistik ved hjælp af cookies',
             textblock1: 'Ved at klikke OK accepterer du vores cookies til statistik. Du kan sige ',
