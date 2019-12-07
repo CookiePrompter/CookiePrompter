@@ -3,10 +3,10 @@ var CookiePrompter = (function () {
     var NO_TRACK_VAL = 'n',
         OK_TRACK_VAL = 'y',
         TRACKING_COOKIE = 'cookieOptOut',
-        trackers =[],
-        config={}, // will get keys from defaults on init 
+        trackers = [],
+        config = {}, // will get keys from defaults on init 
         defaults = { // will be copied into config on init
-            setCookieOnTopLevelDomain:false,
+            setCookieOnTopLevelDomain: false,
             explicitAccept: false,
             showOKbutton: false,
             expiryDays: 365,
@@ -25,10 +25,10 @@ var CookiePrompter = (function () {
                 'inlinestyleInner': 'max-width:960px;margin-left:auto;margin-right:auto;'
             },
             enableLog: false,
-            onOptOut: function(pageHref){
-                log('opting out from page: '+pageHref);
+            onOptOut: function (pageHref) {
+                log('opting out from page: ' + pageHref);
             },
-            onReady: function(cfg){},
+            onReady: function (cfg) {},
             referrerHandler: ReferrerHandler,
             cookieMgr: CookieMgr
         };
@@ -50,25 +50,25 @@ var CookiePrompter = (function () {
         config.cookieMgr.eraseCookie(TRACKING_COOKIE);
         config.cookieMgr.createCookie(TRACKING_COOKIE, NO_TRACK_VAL, config.expiryDays);
     };
-    
-    var acceptBtnClick = function(){
+
+    var acceptBtnClick = function () {
         config.cookieMgr.createCookie(TRACKING_COOKIE, OK_TRACK_VAL, config.expiryDays);
         insertTrackingCode();
         removePrompt();
         return false;
     };
 
-    var eraseCookiesAndRemovePrompt = function(){
+    var eraseCookiesAndRemovePrompt = function () {
         removeCookies();
         removePrompt();
-        if(config.onOptOut && typeof(config.onOptOut)==='function'){
+        if (config.onOptOut && typeof (config.onOptOut) === 'function') {
             log('firing onOptOut callback');
             config.onOptOut(window.location.href);
         }
         return false;
     };
 
-    var bindAcceptCookiesBtn = function(){
+    var bindAcceptCookiesBtn = function () {
         var acceptbtns = document.getElementsByClassName('cpAcceptBtn');
         for (var i = acceptbtns.length - 1; i >= 0; i--) {
             var btn = acceptbtns[i];
@@ -76,15 +76,15 @@ var CookiePrompter = (function () {
         }
     };
 
-    var bindDontAcceptCookiesBtn = function(){
-      var dontAcceptBtns = document.getElementsByClassName('cpDontAcceptBtn');
+    var bindDontAcceptCookiesBtn = function () {
+        var dontAcceptBtns = document.getElementsByClassName('cpDontAcceptBtn');
         for (var i = dontAcceptBtns.length - 1; i >= 0; i--) {
             var btn = dontAcceptBtns[i];
             btn.onclick = eraseCookiesAndRemovePrompt;
         }
     };
 
-    var hookupExplicitBtns = function(){
+    var hookupExplicitBtns = function () {
         bindAcceptCookiesBtn();
         bindDontAcceptCookiesBtn();
     };
@@ -109,16 +109,16 @@ var CookiePrompter = (function () {
         if (config.readMoreUrl && document.location.hash !== '#cookieprompt') {
             html.push('<p><a href="' + config.readMoreUrl + '#cookieprompt">' + config.textReadMore + '</a></p>');
         }
-        if(config.showOKbutton){
-            html.push('<div class="cpButtons"><a href="#" class="cpAcceptBtn">'+config.textOKbutton+'</a></div>');
+        if (config.showOKbutton) {
+            html.push('<div class="cpButtons"><a href="#" class="cpAcceptBtn">' + config.textOKbutton + '</a></div>');
         }
-        if(config.explicitAccept){
-            html.push('<div class="cpButtons"><a href="#" class="cpAcceptBtn">'+config.textAccept+'</a><a href="#" class="cpDontAcceptBtn">'+config.textDontAccept+'</a></div>');
+        if (config.explicitAccept) {
+            html.push('<div class="cpButtons"><a href="#" class="cpAcceptBtn">' + config.textAccept + '</a><a href="#" class="cpDontAcceptBtn">' + config.textDontAccept + '</a></div>');
         }
         html.push('</div></div>');
         var body = document.getElementsByTagName('body')[0];
         var block = document.createElement('div');
-        block.className ='eksCookieContainer';
+        block.className = 'eksCookieContainer';
         block.innerHTML = html.join('');
         body.insertBefore(block, body.firstChild);
         var link = document.getElementById('eksCookieNo');
@@ -130,7 +130,7 @@ var CookiePrompter = (function () {
     };
 
     var insertTrackingCode = function (cfg) {
-        log('inserting tracking code for '+trackers.length+ ' trackers');
+        log('inserting tracking code for ' + trackers.length + ' trackers');
         for (var i = 0; i < trackers.length; i++) {
             var t = trackers[i];
             t.injectCode(cfg);
@@ -140,28 +140,30 @@ var CookiePrompter = (function () {
     var init = function (opts) {
         // merge defaults into config
         for (var k in defaults) {
-            config[k] = defaults[k]; 
+            config[k] = defaults[k];
         }
 
         // merge supplied overrides into config
         for (var j in opts) {
-            config[j] = opts[j]; 
+            config[j] = opts[j];
         }
 
         log('init');
 
-        config.cookieMgr.init({setCookieOnTopLevelDomain:config.setCookieOnTopLevelDomain});
+        config.cookieMgr.init({
+            setCookieOnTopLevelDomain: config.setCookieOnTopLevelDomain
+        });
 
         trackers = [];
         if (opts.trackers) {
             for (var i = 0; i < opts.trackers.length; i++) {
                 var tracker = opts.trackers[i].name;
                 log(tracker);
-                var trackerConfig =opts.trackers[i].config;
+                var trackerConfig = opts.trackers[i].config;
                 tracker.init(trackerConfig);
-                trackers.push(tracker); 
+                trackers.push(tracker);
             }
-        }else{
+        } else {
             log('no trackers added. You would probably want at least one.');
         }
 
@@ -185,10 +187,10 @@ var CookiePrompter = (function () {
                 log(' b) ok cookie found, tracking accepted, we are tracking');
                 insertTrackingCode();
             } else {
-                if(config.explicitAccept===true){
+                if (config.explicitAccept === true) {
                     log('rendering prompt because explicit (no cookie)');
                     renderCookieprompt();
-                }else{
+                } else {
                     if (config.referrerHandler.cameFromSameDomain(document)) {
                         log(" c) referrer found from same domain, setting cookie and tracking");
                         config.cookieMgr.createCookie(TRACKING_COOKIE, OK_TRACK_VAL, config.expiryDays);
@@ -205,7 +207,9 @@ var CookiePrompter = (function () {
                             } else {
                                 config.cookieMgr.createCookie(TRACKING_COOKIE, OK_TRACK_VAL, config.expiryDays);
                                 log('no anticookie set, lets track, but disable async to wait for script load before moving on');
-                                insertTrackingCode({async:false});
+                                insertTrackingCode({
+                                    async: false
+                                });
                             }
                         };
                     }
@@ -224,5 +228,10 @@ var CookiePrompter = (function () {
         setNoTrackingCookie();
     };
 
-    return { init: init, removeCookies: removeCookies,removePrompt:removePrompt,eraseCookiesAndRemovePrompt:eraseCookiesAndRemovePrompt };
+    return {
+        init: init,
+        removeCookies: removeCookies,
+        removePrompt: removePrompt,
+        eraseCookiesAndRemovePrompt: eraseCookiesAndRemovePrompt
+    };
 })();

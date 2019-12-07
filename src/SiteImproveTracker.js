@@ -1,7 +1,7 @@
 var SiteImproveTracker = (function () {
     "use strict";
-    var scriptLocation, 
-        enableLog=false,
+    var scriptLocation,
+        enableLog = false,
         cookieMgr = CookieMgr;
 
     var log = function (msg) {
@@ -25,12 +25,18 @@ var SiteImproveTracker = (function () {
         cookieMgr.eraseCookie('nmstat');
     };
 
-    var init = function(cfg) {
+    var init = function (cfg) {
         scriptLocation = cfg.scriptLocation;
         if (cfg.ready && typeof cfg.ready === 'function') {
-            cfg.ready({scriptLocation:scriptLocation});
+            cfg.ready({
+                scriptLocation: scriptLocation
+            });
         }
     };
 
-    return { init:init,injectCode: injectCode, eraseCookie: eraseCookie };
+    return {
+        init: init,
+        injectCode: injectCode,
+        eraseCookie: eraseCookie
+    };
 })();

@@ -1,4 +1,4 @@
-var GoogleAnalyticsUniversalTracker = (function() {
+var GoogleAnalyticsUniversalTracker = (function () {
   "use strict";
   var cookieMgr = CookieMgr,
     loadAsync = true,
@@ -7,26 +7,26 @@ var GoogleAnalyticsUniversalTracker = (function() {
     fakeAnalytics,
     enableLog = true;
 
-  var log = function(msg) {
+  var log = function (msg) {
     if (window.console && enableLog) {
       console.log(msg);
     }
   };
 
-  var eraseCookie = function() {
+  var eraseCookie = function () {
     // known google analytics cookies
     cookieMgr.eraseCookie('_ga');
   };
 
-  var callSetupCode = function() {
+  var callSetupCode = function () {
     /* jshint ignore:start */
-    (function(i, s, o, g, r, a, m) {
+    (function (i, s, o, g, r, a, m) {
       i['GoogleAnalyticsObject'] = r;
-      i[r] = i[r] || function() {
+      i[r] = i[r] || function () {
         (i[r].q = i[r].q || []).push(arguments)
       }, i[r].l = 1 * new Date();
       a = s.createElement(o),
-      m = s.getElementsByTagName(o)[0];
+        m = s.getElementsByTagName(o)[0];
       a.async = 1;
       a.src = g;
       m.parentNode.insertBefore(a, m)
@@ -36,7 +36,7 @@ var GoogleAnalyticsUniversalTracker = (function() {
 
   };
 
-  var injectCode = function(injectCfg) {
+  var injectCode = function (injectCfg) {
     log('injectCfg:');
     log(injectCfg);
     if (account) {
@@ -60,9 +60,9 @@ var GoogleAnalyticsUniversalTracker = (function() {
     }
   };
 
-  var setAsyncOnScript = function(ga, injectCfg) {};
+  var setAsyncOnScript = function (ga, injectCfg) {};
 
-  var init = function(cfg) {
+  var init = function (cfg) {
     loadAsync = cfg.async || true;
     params = cfg.params || [];
     account = cfg.account;

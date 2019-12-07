@@ -23,20 +23,20 @@ test('NetminersTracker is initialized', function () {
 
 test('NetminersTracker injectCode', function () {
     var netminersCfg = {
-                scriptLocation: '/scripts/FakeNetminersInsight.js',
-                netminersAccount: 'xyz123',
-                ready: function (cfg) {
-                    equal(cfg.scriptLocation, '/scripts/FakeNetminersInsight.js');
-                    equal(cfg.netminersAccount, 'xyz123');
-                    ok(true, 'tracker initialized');
-                }
-            };
+        scriptLocation: '/scripts/FakeNetminersInsight.js',
+        netminersAccount: 'xyz123',
+        ready: function (cfg) {
+            equal(cfg.scriptLocation, '/scripts/FakeNetminersInsight.js');
+            equal(cfg.netminersAccount, 'xyz123');
+            ok(true, 'tracker initialized');
+        }
+    };
     NetMinersTracker.init(netminersCfg);
     NetMinersTracker.injectCode();
 
     var scriptTag = document.getElementsByTagName('script')[0];
     var matches = scriptTag.src.match(netminersCfg.scriptLocation);
-    equal(true,matches && matches.length===1,'netminers script tag does not match the provided location: '+netminersCfg.scriptLocation + ', (was: '+scriptTag.src+')');
+    equal(true, matches && matches.length === 1, 'netminers script tag does not match the provided location: ' + netminersCfg.scriptLocation + ', (was: ' + scriptTag.src + ')');
 });
 
 /*test('NetminersTracker can erase cookie', function () {
