@@ -7,16 +7,16 @@ var CookiePrompter = (function () {
         config = {}, // will get keys from defaults on init 
         defaults = { // will be copied into config on init
             setCookieOnTopLevelDomain: false,
-            expiryDays: 365,
+            expiryDays: 180,
             trackLandingPage: false,
             readMoreUrl: '/',
             textHeader: 'Vi samler statistik ved hjælp af cookies',
-            textblock1: 'Vi begynder dog først, når du klikker dig videre til næste side. Du kan sige ',
-            textblock2: '. Vi bruger en cookie, for at huske dit Nej. Ønsker du helt at undgå cookies, skal du slå cookies fra i din browser. Du skal dog være opmærksom på, at hvis du slår cookies fra, kan du ikke logge på eller bruge andre funktioner, som forudsætter, at hjemmesiden kan huske dine valg.',
-            textNoThanks: 'Nej tak til statistik ved at klikke her',
+            textblock1: 'Ved at klikke OK accepterer du vores cookies til statistik. Du kan sige ',
+            textblock2: '. Vi bruger en cookie, for at huske dit nej.',
+            textNoThanks: 'nej tak til statistikcookies ved at klikke her',
             textReadMore: 'Læs mere om cookies her',
             textAccept: 'OK',
-            textDontAccept: 'Accepter ikke Cookies',
+            textDontAccept: '',
             styling: {
                 'inlinestyle': 'border-bottom:2px solid #000;padding: 12px 20px 0 20px;margin-bottom:12px;',
                 'inlinestyleInner': 'max-width:960px;margin-left:auto;margin-right:auto;'
@@ -114,7 +114,11 @@ var CookiePrompter = (function () {
             html.push('<p><a href="' + config.readMoreUrl + '#cookieprompt">' + config.textReadMore + '</a></p>');
         }
                 
-        html.push('<div class="cpButtons"><a href="#" class="cpAcceptBtn">' + config.textAccept + '</a><a href="#" class="cpDontAcceptBtn">' + config.textDontAccept + '</a></div>');
+        html.push('<div class="cpButtons"><a href="#" class="cpAcceptBtn">' + config.textAccept + '</a>');
+        if(config.textDontAccept!==''){
+            html.push('<a href="#" class="cpDontAcceptBtn">' + config.textDontAccept + '</a>');
+        }
+        html.push('</div>');
         
         html.push('</div></div>');
         var body = document.getElementsByTagName('body')[0];
