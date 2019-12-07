@@ -12,7 +12,6 @@ var CookieMgr = (function () {
         var domain = hostname.replace('www.', '');
         log('setting cookie on toplevel domain:' + setCookieOnTopLevelDomain);
         if (setCookieOnTopLevelDomain) {
-
             domain = domain.replace(/[\w\d\-\.]*\.([\w\d\-]*\.\w{2,3})$/i, '$1');
         }
         return domain;

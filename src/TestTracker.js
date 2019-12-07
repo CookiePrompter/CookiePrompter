@@ -12,7 +12,6 @@ var TestTracker = (function () {
             if (cfg.ready && typeof cfg.ready === 'function') {
                 cfg.ready();
             }
-
         },
         injectCode = function () {
             var testTag = document.createElement('h1');

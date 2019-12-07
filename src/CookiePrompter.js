@@ -93,8 +93,6 @@ var CookiePrompter = (function () {
 
     var renderCookieprompt = function () {
         log('renderCookieprompt()');
-
-
         log('  removing prompt');
         removePrompt();
 
@@ -152,7 +150,6 @@ var CookiePrompter = (function () {
         for (var j in opts) {
             config[j] = opts[j];
         }
-
 
         config.cookieMgr.init({
             setCookieOnTopLevelDomain: config.setCookieOnTopLevelDomain
