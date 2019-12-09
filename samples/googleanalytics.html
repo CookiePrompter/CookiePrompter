@@ -14,10 +14,12 @@
 		<div class="span10">
 			<h1>Simpel CookiePrompter med Gooogle Analytics</h1>
 			<p>Simplest tænkelige opsætning med Google Analytics</p>
-			<p>Når man navigerer videre fra den første side vil man lave en implicit accept af cookies og googles tracking script vil bliver indlæst på siden.</p>
 			<p>Hvis man siger nej, vil der gemmes en enkelt cookie, hvis eneste funktion er at huske, at du ikke vil have cookies. Desuden vil tracking scripts ikke blive indlæst.</p>
-			<p>Naviger videre og accepter med <a href="?querystring">dette link</a> (simuleret viderenavigation ved at gå til samme side med querystring)</p>
+			<p>Hvis man siger ja, vil der gemmes en enkelt cookie, der husker at man gerne vil have tracking cookies.</p>
 			<p>Slet cookies og sig nej til yderligere registreringer med <a href="#" onclick="CookiePrompter.removeCookies();">Dette link</a> </p>
+		
+			<p>Naviger hen på <a href="eksplicitAccept_underside.html">denne underside </a>og konstater, at du stadig bliver spurgt</p>
+
 		</div>
 		</div>
 	<footer></footer>
@@ -28,6 +30,7 @@
 	<script type="text/javascript">
 		CookiePrompter.init({
 				readMoreUrl: 'readmore.html',
+				textDontAccept:'',
 		        trackers: [{
 		            name: GoogleAnalyticsTracker,
 		            config: {
