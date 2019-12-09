@@ -8,9 +8,4 @@ Erhvervsstyrelsen har besluttet at udgive CookiePrompter som Open Source, og den
 
 Hvis du vil bruge CookiePrompter på dit website, kan du finde al dokumentation [her i wikien](https://github.com/CookiePrompter/CookiePrompter/wiki)
 
-
-## Udvikling
-
-Requirements
-* node.js
-* grunt-cli
+Her vil du også kunne se, hvordan man udvider og konfigurerer CookiePrompter.

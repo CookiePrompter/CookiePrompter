@@ -71,7 +71,7 @@ test('config keys will be set individually for each init', function () {
 
     CookiePrompter.init({
         onReady: function (cfg) {
-            ok(cfg.expiryDays === 180);
+            ok(cfg.expiryDays === 365);
         },
         trackers: [{
             name: UnitTestTracker,

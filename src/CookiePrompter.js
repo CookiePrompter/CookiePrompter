@@ -7,7 +7,7 @@ var CookiePrompter = (function () {
         config = {}, // will get keys from defaults on init 
         defaults = { // will be copied into config on init
             setCookieOnTopLevelDomain: false,
-            expiryDays: 180,
+            expiryDays: 365,
             readMoreUrl: '/',
             textHeader: 'Vi samler statistik ved hjælp af cookies',
             textblock1: 'Ved at klikke OK accepterer du vores cookies til statistik. Du kan sige ',
