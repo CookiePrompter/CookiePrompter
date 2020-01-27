@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+	<title>Piwik Pro Tracker</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="resources/css/samples.css">
+</head>
+
+<body>
+	<div class="top"></div>
+	<div class="row-fluid">
+		<div class="span2 sidebar"></div>
+		<div class="span10">
+			<h1>Piwik Pro Tracker</h1>
+			<p>Her er piwik pro trackeren. Kig i source for at se, hvordan den er sat op.</p>
+			<p>Den virker kun, hvis du opdaterer scriptet med den korrekte <code>account</code> og <code>piwikProPath</code> i initialiseringsscriptet</p>
+			<p>Klik herunder for at slette de cookies, der bliver sat.</p>
+			<button id="eraseCookies" class="btn btn-large">Slet cookies</button>
+
+
+<pre>
+	CookiePrompter.init({
+		readMoreUrl: 'readmore.html',
+		enableLog: true,
+		trackers: [{
+			name: PiwikProTracker,
+			config: {
+				account: 'aafe051f-ea17-37d7-fdc6-baf6576aa666',
+				piwikProPath: 'this.is.not.it.piwik.pro'
+			}
+		}]
+	});
+
+</pre>
+
+
+		</div>
+	</div>
+	<script type="text/javascript" src="resources/js/jquery.js"></script>
+	<script type="text/javascript" src="../deploy/CookiePrompter.js"></script>
+
+	<script type="text/javascript">
+		CookiePrompter.init({
+			readMoreUrl: 'readmore.html',
+			enableLog: true,
+			trackers: [{
+				name: PiwikProTracker,
+				config: {
+					account: 'aafe051f-ea17-37d7-fdc6-baf6576aa666',
+					piwikProPath: 'this.is.not.it.piwik.pro'
+				}
+			}]
+		});
+	</script>
+	<footer></footer>
+	<script type="text/javascript">
+		$(function () {
+			$('.top').load('resources/topnav.html');
+			$('.sidebar').load('resources/sidebar.html');
+			$('#eraseCookies').click(function(e){
+				console.log('hello');
+				e.preventDefault();
+				CookiePrompter.removeCookies();
+			});
+		});
+	</script>
+</body>
+
+</html>

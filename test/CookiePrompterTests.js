@@ -199,6 +199,7 @@ test('Finding OK cookie will result in code injection', function () {
     var fakeCookieMgr = (function () {
         return {
             init: function () {},
+            eraseCookie: function(){},
 
             createCookie: function (name, value, days) {
                 throw "Should not create cookie, when it exists";

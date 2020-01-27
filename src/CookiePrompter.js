@@ -112,13 +112,13 @@ var CookiePrompter = (function () {
         if (config.readMoreUrl && document.location.hash !== '#cookieprompt') {
             html.push('<p><a href="' + config.readMoreUrl + '#cookieprompt">' + config.textReadMore + '</a></p>');
         }
-                
+
         html.push('<div class="cpButtons"><a href="#" class="cpAcceptBtn">' + config.textAccept + '</a>');
-        if(config.textDontAccept!==''){
+        if (config.textDontAccept !== '') {
             html.push('<a href="#" class="cpDontAcceptBtn">' + config.textDontAccept + '</a>');
         }
         html.push('</div>');
-        
+
         html.push('</div></div>');
         var body = document.getElementsByTagName('body')[0];
         var block = document.createElement('div');
@@ -183,6 +183,7 @@ var CookiePrompter = (function () {
 
         if (cookie === NO_TRACK_VAL) {
             log('  a) disabletracking cookie found. Not tracking');
+            eraseCookies();
         } else {
             if (cookie === OK_TRACK_VAL) {
                 log('  b) ok cookie found, tracking accepted, we are tracking');
@@ -196,16 +197,23 @@ var CookiePrompter = (function () {
         config.onReady(config);
     };
 
-    var removeCookies = function () {
+    // erasing cookies in all trackers
+    var eraseCookies = function () {
         log('deleting cookies');
         for (var i = 0; i < trackers.length; i++) {
+            log('deleting for ', trackers[i]);
             trackers[i].eraseCookie();
         }
+    };
 
+    // erasing cookies and setting dont-track cookie
+    var removeCookies = function () {
+        eraseCookies();
         setNoTrackingCookie();
     };
 
-    var getCookie = function(){
+    // get the optout cookie
+    var getCookie = function () {
         return config.cookieMgr.readCookie(TRACKING_COOKIE);
     };
 
