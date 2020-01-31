@@ -39,6 +39,7 @@ module.exports = function (grunt) {
                 src: ['<%= meta.srcPath %>CookieMgr.js',
                     '<%= meta.srcPath %>TestTracker.js',
                     '<%= meta.srcPath %>GemiusTracker.js',
+                    '<%= meta.srcPath %>PiwikProTracker.js',
                     '<%= meta.srcPath %>NetMinersTracker.js',
                     '<%= meta.srcPath %>GoogleAnalyticsTracker.js',
                     '<%= meta.srcPath %>SiteImproveTracker.js',
