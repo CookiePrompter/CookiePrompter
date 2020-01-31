@@ -22,6 +22,13 @@ var PiwikProTracker = (function () {
         cookieMgr.eraseCookie('stg_last_interaction');
         cookieMgr.eraseCookie('stg_returning_visitor');
         cookieMgr.eraseCookie('stg_traffic_source_priority');
+        cookieMgr.eraseCookie('PIWIK_SESSID');
+        cookieMgr.eraseCookie('piwik_auth');
+        cookieMgr.eraseCookie('_pk_cvar');
+        cookieMgr.eraseCookie('stg_popup');
+        cookieMgr.eraseCookie('stg_utm_campaign');
+        cookieMgr.eraseCookie('stg_externalReferrer');
+        cookieMgr.eraseCookie('stg_content');
     };
 
     var callSetupCode = function (accountPath, accountId) {
