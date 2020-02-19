@@ -39,7 +39,7 @@ var CookiePrompter = (function () {
     var removePrompt = function () {
         var el = document.getElementById("eksCookiePrompt");
         if (el) {
-            el.parentNode.removeChild(el);
+            el.parentNode.remove();
         }
     };
 
