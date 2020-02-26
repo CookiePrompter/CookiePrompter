@@ -30,8 +30,13 @@
 	<script type="text/javascript">
 		CookiePrompter.init({
 				readMoreUrl: 'readmore.html',
-				textDontAccept:'',
-		        trackers: [{
+				textDontAccept:'Afvis',
+				textAccept: "Accepter",
+				textHeader: "Vi bruger cookies til at indsamle statistik over brugen af hjemmesiden",
+				textblock1: "Hvis du klikker på knappen ’Accepter’, godkender du, at vi sætter cookies til brug for statistik. Hvis du klikker på knappen ’Afvis,’ sætter vi ikke cookies til statistik",
+				textNoThanks: "",
+				textblock2: " – vi benytter dog en cookie for at huske dit valg.",
+				trackers: [{
 		            name: GoogleAnalyticsTracker,
 		            config: {
 		                account: '1234'

@@ -14,8 +14,8 @@ var CookiePrompter = (function () {
             textblock2: '. Vi bruger en cookie, for at huske dit nej.',
             textNoThanks: 'nej tak til statistikcookies ved at klikke her',
             textReadMore: 'Læs mere om cookies her',
-            textAccept: 'OK',
-            textDontAccept: '',
+            textAccept: 'Accepter',
+            textDontAccept: 'Afvis',
             styling: {
                 'inlinestyle': 'border-bottom:2px solid #000;padding: 12px 20px 0 20px;margin-bottom:12px;',
                 'inlinestyleInner': 'max-width:960px;margin-left:auto;margin-right:auto;'

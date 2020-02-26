@@ -2,10 +2,32 @@
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
       }
  .cpButtons a {
-    border: 1px #ccc solid;
-    background: #888;
-    padding: 2px;
-    margin: 2px;
-    border-radius: 4px;
-    color: white;
+    border: 1px #7F6000 solid;
+    background: #FFC000; 
+    padding: 6px;
+    margin: 4px;
+    color: #000;
+    border-radius: 0;
+    margin-left: 10px;
+    -webkit-box-shadow: 3px 3px 1px 0px rgba(215,215,215,0.75);
+    -moz-box-shadow: 3px 3px 1px 0px rgba(215,215,215,0.75);
+    box-shadow: 3px 3px 1px 0px rgba(215,215,215,0.75);
+    width: 70px;
+    text-align: center;
 }
+
+.cpButtons {
+  display: flex;
+}
+
+ .cpAcceptBtn {
+  order: 1;
+ }
+
+ .cpDontAcceptBtn {
+ order: 0;
+ }
+
+ #eksCookiePromptInner p > a:first-of-type {
+   color: #000;
+ }
