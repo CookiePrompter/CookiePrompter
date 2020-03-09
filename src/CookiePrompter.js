@@ -37,6 +37,13 @@ var CookiePrompter = (function () {
     };
 
     var removePrompt = function () {
+
+        if(typeof Element.prototype.remove == "undefined") {
+            Element.prototype.remove = function() {
+                this.parentElement.removeChild(this);
+            };
+        }
+
         var el = document.getElementById("eksCookiePrompt");
         if (el) {
             el.parentNode.remove();
