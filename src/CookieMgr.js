@@ -33,9 +33,9 @@ var CookieMgr = (function () {
             var domain = getCookieDomain(window.location.hostname);
             log('setting cookie on ' + domain);
             if (domain === 'localhost') {
-                document.cookie = name + "=" + value + expires + "; path=/"+ ";SameSite=Strict";
+                document.cookie = name + "=" + value + expires + "; path=/"+ ";SameSite=Lax";
             } else {
-                document.cookie = name + "=" + value + expires + ";domain=" + domain + "; path=/"+ ";SameSite=Strict";
+                document.cookie = name + "=" + value + expires + ";domain=" + domain + "; path=/"+ ";SameSite=Lax";
             }
         },
         readCookie = function (name) {
