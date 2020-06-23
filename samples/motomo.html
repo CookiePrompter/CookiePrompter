@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <title>CookiePrompter / Google Analytics Tracker</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/samples.css">
+</head>
+
+<body>
+    <div class="top"></div>
+    <div class="row-fluid">
+        <div class="span2 sidebar"></div>
+        <div class="span10">
+            <h1>Motomo tracker</h1>
+            <p>Her er Motomo trackeren. Kig i source for at se, hvordan den er sat op.</p>
+            <p>Den virker kun, hvis du sætter <code>trackerUrl</code> samt <code>siteId</code> i
+                initialiseringsscriptet</p>
+            <p>Hvis domain ikke bliver sat, sætter CookiePrompter det til <code>*.document.href.location</code></p>
+            <p>Klik herunder for at slette de cookies, der bliver sat.</p>
+            <button id="eraseCookies" class="btn btn-large">Slet cookies</button>
+
+            <pre>
+
+                CookiePrompter.init({
+                    readMoreUrl: 'readmore.html',
+                    enableLog: false,
+                    trackers: [{
+                        name: MotomoTracker,
+                        config: {
+                            trackerUrl: "https://127.0.0.1:4433", // https://xxx.motomo.cloud
+                            siteId: 1,
+                            domain: "",  // use *.domain.com for all subdomains 
+                        }
+                }]
+        });
+                            
+            </pre>
+
+
+        </div>
+        <script type="text/javascript" src="resources/js/jquery.js"></script>
+        <script src="resources/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            $(function () { $('.top').load('resources/topnav.html'); $('.sidebar').load('resources/sidebar.html?d'); });
+        </script>
+
+
+        <script type="text/javascript" src="../deploy/CookiePrompter.js"></script>
+        <script type="text/javascript">
+            CookiePrompter.init({
+                readMoreUrl: 'readmore.html',
+                enableLog: false,
+                trackers: [{
+                    name: MotomoTracker,
+                    config: {
+                        trackerUrl: "https://127.0.0.1:4433", // https://xxx.motomo.cloud
+                        siteId: 1,
+                        domain: "",  // use *.domain.com for all subdomains 
+                    }
+                }]
+            });
+        </script>
+
+
+        <script>
+            $(function () {
+                $('#eraseCookies').click(function (e) {
+                    console.log("Erasecookies btn pressed.");
+                    e.preventDefault();
+                    CookiePrompter.removeCookies();
+
+                });
+            });
+        </script>
+
+
+</body>
+
+</html>
