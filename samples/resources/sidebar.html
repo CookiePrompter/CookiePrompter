@@ -5,13 +5,14 @@
     <li class="nav-header">Diverse</li>
     <li><a href="subdomains.html">Cookieprompter og subdomains</a></li>
     <li><a href="piwikpro.html">PiwikPro</a></li>
+    <li><a href="motomo.html">Motomo</a></li>
   </ul>
 </div>
 <script type="text/javascript">
-  $(function(){
-    $('.sidebar-nav ul li a').each(function(i,e){
-      if(!(document.location.href.match(/samples\/?$/i)) && e.href.match(document.location)){
-          $(e).closest('li').addClass('active');
+  $(function () {
+    $('.sidebar-nav ul li a').each(function (i, e) {
+      if (!(document.location.href.match(/samples\/?$/i)) && e.href.match(document.location)) {
+        $(e).closest('li').addClass('active');
       }
     })
   })

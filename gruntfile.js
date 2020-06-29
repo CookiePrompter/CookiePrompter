@@ -40,6 +40,7 @@ module.exports = function (grunt) {
                     '<%= meta.srcPath %>TestTracker.js',
                     '<%= meta.srcPath %>GemiusTracker.js',
                     '<%= meta.srcPath %>PiwikProTracker.js',
+                    '<%= meta.srcPath %>MotomoTracker.js',
                     '<%= meta.srcPath %>NetMinersTracker.js',
                     '<%= meta.srcPath %>GoogleAnalyticsTracker.js',
                     '<%= meta.srcPath %>SiteImproveTracker.js',
