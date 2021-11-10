@@ -1,34 +1,41 @@
 /// <reference path="../src/CookiePrompter.js"/>
-/// <reference path="resources/qunit.js" />
+/// <reference path="../node_modules/qunit/qunit/qunit.js" />
 
-module('NetminersTracker');
+QUnit.module('NetminersTracker',{
+    beforeEach: function () {
+        CookieDeleter.DeleteAll();
+    },
+    afterEach: function () {
+        CookieDeleter.DeleteAll();
+    }
+});
 
-test('NetminersTracker is initialized', function () {
-    expect(3);
+QUnit.test('NetminersTracker is initialized', function (assert) {
+    assert.expect(3);
     CookiePrompter.init({
         trackers: [{
             name: NetMinersTracker,
             config: {
-                scriptLocation: '/scripts/FakeNetminersInsight.js',
+                scriptLocation: '/src/fakes/FakeNetminersInsight.js',
                 netminersAccount: 'xyz123',
                 ready: function (cfg) {
-                    equal(cfg.scriptLocation, '/scripts/FakeNetminersInsight.js');
-                    equal(cfg.netminersAccount, 'xyz123');
-                    ok(true, 'tracker initialized');
+                    assert.equal(cfg.scriptLocation, '/src/fakes/FakeNetminersInsight.js');
+                    assert.equal(cfg.netminersAccount, 'xyz123');
+                    assert.ok(true, 'tracker initialized');
                 }
             }
         }]
     });
 });
 
-test('NetminersTracker injectCode', function () {
+QUnit.test('NetminersTracker injectCode', function (assert) {
     var netminersCfg = {
-        scriptLocation: '/scripts/FakeNetminersInsight.js',
+        scriptLocation: '/src/fakes/FakeNetminersInsight.js',
         netminersAccount: 'xyz123',
         ready: function (cfg) {
-            equal(cfg.scriptLocation, '/scripts/FakeNetminersInsight.js');
-            equal(cfg.netminersAccount, 'xyz123');
-            ok(true, 'tracker initialized');
+            assert.equal(cfg.scriptLocation, '/src/fakes/FakeNetminersInsight.js');
+            assert.equal(cfg.netminersAccount, 'xyz123');
+            assert.ok(true, 'tracker initialized');
         }
     };
     NetMinersTracker.init(netminersCfg);
@@ -36,32 +43,27 @@ test('NetminersTracker injectCode', function () {
 
     var scriptTag = document.getElementsByTagName('script')[0];
     var matches = scriptTag.src.match(netminersCfg.scriptLocation);
-    equal(true, matches && matches.length === 1, 'netminers script tag does not match the provided location: ' + netminersCfg.scriptLocation + ', (was: ' + scriptTag.src + ')');
+    assert.equal(true, matches && matches.length === 1, 'netminers script tag does not match the provided location: ' + netminersCfg.scriptLocation + ', (was: ' + scriptTag.src + ')');
 });
 
-/*test('NetminersTracker can erase cookie', function () {
-    stop();
-    CookiePrompter.init({
-        trackers: [{
-            name: NetMinersTracker,
-            config: {
-                scriptLocation: '/scripts/FakeNetminersInsight.js',
-                ready: function (cfg) {
-                    equal(cfg.scriptLocation, '/scripts/FakeNetminersInsight.js');
-                    ok(true, 'tracker initialized');
-                    start();
-                }
-            }
-        }]
-    });
+// QUnit.test('NetminersTracker can erase cookie', function (assert) {
+//     var done = assert.async();
+//     CookiePrompter.init({
+//         trackers: [{
+//             name: NetMinersTracker,
+//             config: {
+//                 scriptLocation: '/scripts/FakeNetminersInsight.js',
+//                 netminersAccount: 'xyz123',
+//                 ready: function (cfg) {
+//                     assert.equal(cfg.scriptLocation, '/scripts/FakeNetminersInsight.js');
+//                     assert.ok(true, 'tracker initialized');
+//                     done();
+//                 }
+//             }
+//         }]
+//     });
 
-    // insert cookie manually
-    CookieMgr.createCookie('nmstat', '1234', 23);
-    // test that it is there
-    equal(CookieMgr.readCookie('nmstat'), '1234', 'Cookie was expected');
+   
+//     CookiePrompter.removeCookies();
 
-    CookiePrompter.removeCookies();
-
-    // test that it is gone
-    equal(CookieMgr.readCookie('nmstat'), null, 'Cookie was not expected');
-});*/
+// });

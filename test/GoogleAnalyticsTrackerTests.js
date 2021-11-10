@@ -1,26 +1,30 @@
 ﻿/// <reference path="../src/CookiePrompter.js"/>
-/// <reference path="resources/qunit.js" />
+/// <reference path="../node_modules/qunit/qunit/qunit.js" />
 
 
-module('GoogleAnalyticsTracker');
-test('GoogleAnalyticsTracker is initialized with account', function () {
-    expect(2);
+QUnit.module('GoogleAnalyticsTracker',{
+    afterEach: function () {
+        CookieDeleter.DeleteAll();
+    }
+});
+QUnit.test('GoogleAnalyticsTracker is initialized with account', function (assert) {
+    assert.expect(2);
     CookiePrompter.init({
         trackers: [{
             name: GoogleAnalyticsTracker,
             config: {
                 account: '1234',
                 ready: function (cfg) {
-                    equal(cfg.account, '1234');
-                    ok(true, 'tracker initialized');
+                    assert.equal(cfg.account, '1234');
+                    assert.ok(true, 'tracker initialized');
                 }
             }
         }]
     });
 });
 
-test('GoogleAnalyticsTracker is initialized with params', function () {
-    expect(3);
+QUnit.test('GoogleAnalyticsTracker is initialized with params', function (assert) {
+    assert.expect(3);
     CookiePrompter.init({
         trackers: [{
             name: GoogleAnalyticsTracker,
@@ -28,17 +32,17 @@ test('GoogleAnalyticsTracker is initialized with params', function () {
                 account: '1234',
                 params: ['p1_sdf', 'p2)_sdfsf'],
                 ready: function (cfg) {
-                    equal(cfg.account, '1234');
-                    deepEqual(cfg.params, ['p1_sdf', 'p2)_sdfsf']);
-                    ok(true, 'tracker initialized');
+                    assert.equal(cfg.account, '1234');
+                    assert.deepEqual(cfg.params, ['p1_sdf', 'p2)_sdfsf']);
+                    assert.ok(true, 'tracker initialized');
                 }
             }
         }]
     });
 });
 
-test('GoogleAnalyticsTracker script is default async=true', function () {
-    expect(1);
+QUnit.test('GoogleAnalyticsTracker script is default async=true', function (assert) {
+    assert.expect(1);
     var gaCfg = {
         account: '1234',
         params: ['p1_sdf', 'p2)_sdfsf']
@@ -48,11 +52,11 @@ test('GoogleAnalyticsTracker script is default async=true', function () {
 
     // get scriptBlock
     var scriptTag = document.getElementsByTagName('script')[0];
-    equal(scriptTag.async, true);
+    assert.equal(scriptTag.async, true);
 });
 
-test('Google analytics script will respect injectCode async overriding', function () {
-    expect(1);
+QUnit.test('Google analytics script will respect injectCode async overriding', function (assert) {
+    assert.expect(1);
     var gaCfg = {
         account: '1234',
         params: ['p1_sdf', 'p2)_sdfsf']
@@ -64,5 +68,5 @@ test('Google analytics script will respect injectCode async overriding', functio
 
     // get scriptBlock
     var scriptTag = document.getElementsByTagName('script')[0];
-    equal(scriptTag.async, false);
+    assert.equal(scriptTag.async, false);
 });

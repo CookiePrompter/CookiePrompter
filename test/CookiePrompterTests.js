@@ -1,5 +1,5 @@
 ﻿/// <reference path="../src/CookiePrompter.js"/>
-/// <reference path="resources/qunit.js" />
+/// <reference path="../node_modules/qunit/qunit/qunit.js" />
 
 
 function cleanup() {
@@ -13,38 +13,39 @@ function cleanup() {
     }
 }
 
-module('CookiePrompter tests', {
-    setup: function () {
+QUnit.module('CookiePrompter tests', {
+    beforeEach: function () {
         CookiePrompter.init({
             enableLog: false
         }); // reset defaults
         cleanup();
     },
-    teardown: function () {
+    afterEach: function () {
         CookieMgr.eraseCookie('cookieOptOut');
         CookiePrompter.init({
             enableLog: false
         }); // reset defaults
         cleanup();
+        CookieDeleter.DeleteAll();
     }
 });
 
-test('Init can run', function () {
+QUnit.test('Init can run', function (assert) {
     CookiePrompter.init({});
-    notEqual(null, document);
+    assert.notEqual(null, document);
 });
 
 
-test('OnOptOut callback can be null', function () {
-    expect(2);
+QUnit.test('OnOptOut callback can be null', function (assert) {
+    assert.expect(2);
     CookiePrompter.init({
         trackers: [{
             name: UnitTestTracker,
             config: {
                 ready: function () {
-                    ok(true, 'tracker inialized');
+                    assert.ok(true, 'tracker inialized');
                     CookiePrompter.eraseCookiesAndRemovePrompt();
-                    ok(true);
+                    assert.ok(true);
                 }
             }
         }]
@@ -52,18 +53,18 @@ test('OnOptOut callback can be null', function () {
 });
 
 
-test('config keys will be set individually for each init', function () {
-    expect(4);
+QUnit.test('config keys will be set individually for each init', function (assert) {
+    assert.expect(4);
     CookiePrompter.init({
         expiryDays: 120,
         onReady: function (cfg) {
-            ok(cfg.expiryDays === 120);
+            assert.ok(cfg.expiryDays === 120);
         },
         trackers: [{
             name: UnitTestTracker,
             config: {
                 ready: function () {
-                    ok(true, 'tracker inialized');
+                    assert.ok(true, 'tracker inialized');
                 }
             }
         }]
@@ -71,21 +72,21 @@ test('config keys will be set individually for each init', function () {
 
     CookiePrompter.init({
         onReady: function (cfg) {
-            ok(cfg.expiryDays === 365);
+            assert.ok(cfg.expiryDays === 365);
         },
         trackers: [{
             name: UnitTestTracker,
             config: {
                 ready: function () {
-                    ok(true, 'tracker inialized');
+                    assert.ok(true, 'tracker inialized');
                 }
             }
         }]
     });
 });
 
-test('OnOptOut callback will be called once when erasing cookies', function () {
-    expect(2);
+QUnit.test('OnOptOut callback will be called once when erasing cookies', function (assert) {
+    assert.expect(2);
     var callCount = 0;
     CookiePrompter.init({
         enableLog: false,
@@ -96,30 +97,30 @@ test('OnOptOut callback will be called once when erasing cookies', function () {
             name: UnitTestTracker,
             config: {
                 ready: function () {
-                    ok(true, 'tracker inialized');
+                    assert.ok(true, 'tracker inialized');
                 }
             }
         }]
     });
     CookiePrompter.eraseCookiesAndRemovePrompt();
-    ok(callCount === 1);
+    assert.ok(callCount === 1);
 });
 
-test('UnitTestTracker is initialized', function () {
-    expect(1);
+QUnit.test('UnitTestTracker is initialized', function (assert) {
+    assert.expect(1);
     CookiePrompter.init({
         trackers: [{
             name: UnitTestTracker,
             config: {
                 ready: function () {
-                    ok(true, 'tracker inialized');
+                    assert.ok(true, 'tracker inialized');
                 }
             }
         }]
     });
 });
 
-test('UnitTestTracker will not inject if first visit', function () {
+QUnit.test('UnitTestTracker will not inject if first visit', function (assert) {
     CookiePrompter.init({
         trackers: [{
             name: UnitTestTracker,
@@ -129,19 +130,19 @@ test('UnitTestTracker will not inject if first visit', function () {
         }]
     });
     var el = document.getElementById('h1header');
-    ok(el === null, 'Code injected, but should not have been');
+    assert.ok(el === null, 'Code injected, but should not have been');
 });
 
 
-test("Cookie will use provided expirydays when overridden", function () {
-    expect(1);
+QUnit.test("Cookie will use provided expirydays when overridden", function (assert) {
+    assert.expect(1);
 
     var fakeCookieMgr = (function () {
         return {
             init: function () {},
 
             createCookie: function (name, value, days) {
-                ok(days === 45, "ExpiryDays not correctly provided");
+                assert.ok(days === 45, "ExpiryDays not correctly provided");
             },
             readCookie: function () {
                 return ""; // not used
@@ -168,7 +169,7 @@ test("Cookie will use provided expirydays when overridden", function () {
 });
 
 
-test('Finding OK cookie will result in code injection', function () {
+QUnit.test('Finding OK cookie will result in code injection', function (assert) {
     var fakeCookieMgr = (function () {
         return {
             init: function () {},
@@ -192,10 +193,10 @@ test('Finding OK cookie will result in code injection', function () {
         }]
     });
     var el = document.getElementById('h1header');
-    ok(el, 'OK cookie set, but code not injected');
+    assert.ok(el, 'OK cookie set, but code not injected');
 });
 
-test('Finding OK cookie will result in code injection', function () {
+QUnit.test('Finding OK cookie will result in code injection', function (assert) {
     var fakeCookieMgr = (function () {
         return {
             init: function () {},
@@ -220,10 +221,10 @@ test('Finding OK cookie will result in code injection', function () {
         }]
     });
     var el = document.getElementById('h1header');
-    ok(el === null, 'NO cookie set, but tracker injected code anyway');
+    assert.ok(el === null, 'NO cookie set, but tracker injected code anyway');
 });
 
-test('Explicit consent will be respected even if from same domain', function () {
+QUnit.test('Explicit consent will be respected even if from same domain', function (assert) {
     CookiePrompter.init({
         trackers: [{
             name: UnitTestTracker,
@@ -235,46 +236,46 @@ test('Explicit consent will be respected even if from same domain', function () 
         }]
     });
     var el = document.getElementById('h1header');
-    ok(el === null, 'Code injected, but should not have been');
+    assert.ok(el === null, 'Code injected, but should not have been');
 });
 
-test('will show cookieprompt if no cookies present', function () {
+QUnit.test('will show cookieprompt if no cookies present', function (assert) {
     CookiePrompter.init({});
     var cookiePrompt = document.getElementById('eksCookiePrompt');
-    ok(cookiePrompt, 'CookiePrompt was not rendered');
+    assert.ok(cookiePrompt, 'CookiePrompt was not rendered');
 });
 
 
-test('Supplied text for OK btn will be used', function () {
+QUnit.test('Supplied text for OK btn will be used', function (assert) {
     CookiePrompter.init({
         textAccept: 'yeah!'
     });
     var btn = document.getElementsByClassName('cpAcceptBtn')[0];
-    ok(btn.innerText === 'yeah!', 'Text on OK button was not taken from config, was "' + btn.innerText + '"');
+    assert.ok(btn.innerText === 'yeah!', 'Text on OK button was not taken from config, was "' + btn.innerText + '"');
 });
 
-test('Both accept and do not acceptbuttons are showed', function () {
+QUnit.test('Both accept and do not acceptbuttons are showed', function (assert) {
     CookiePrompter.init({
         textDontAccept: 'do not accept'
     });
     var okbtns = document.getElementsByClassName('cpAcceptBtn');
     var nobtns = document.getElementsByClassName('cpDontAcceptBtn');
-    ok(okbtns.length === 1 && nobtns.length === 1, 'Explicit accept buttons were not rendered, should be');
+    assert.ok(okbtns.length === 1 && nobtns.length === 1, 'Explicit accept buttons were not rendered, should be');
 });
 
-test('When no dontaccepttext is set button will not be rendered', function () {
+QUnit.test('When no dontaccepttext is set button will not be rendered', function (assert) {
     CookiePrompter.init({
         textDontAccept: ''
     });
     var nobtns = document.getElementsByClassName('cpDontAcceptBtn');
-    ok(nobtns.length === 0, 'Do not accept-button should not be rendered. It was.');
+    assert.ok(nobtns.length === 0, 'Do not accept-button should not be rendered. It was.');
 });
 
-test('default setCookieOnTopLevelDomain will be passed on to cookieMgr', function () {
+QUnit.test('default setCookieOnTopLevelDomain will be passed on to cookieMgr', function (assert) {
     var fakeCookieMgr = (function () {
         return {
             init: function (opts) {
-                ok(opts && opts.setCookieOnTopLevelDomain === false, 'setCookieOnTopLevelDomain is not on ');
+                assert.ok(opts && opts.setCookieOnTopLevelDomain === false, 'setCookieOnTopLevelDomain is not on ');
             },
 
             createCookie: function (name, value, days) {},
@@ -288,11 +289,11 @@ test('default setCookieOnTopLevelDomain will be passed on to cookieMgr', functio
     });
 });
 
-test('setCookieOnTopLevelDomain on main init opts will be passed on to cookieMgr', function () {
+QUnit.test('setCookieOnTopLevelDomain on main init opts will be passed on to cookieMgr', function (assert) {
     var fakeCookieMgr = (function () {
         return {
             init: function (opts) {
-                ok(opts && opts.setCookieOnTopLevelDomain === true, 'setCookieOnTopLevelDomain is not on ');
+                assert.ok(opts && opts.setCookieOnTopLevelDomain === true, 'setCookieOnTopLevelDomain is not on ');
             },
 
             createCookie: function (name, value, days) {},

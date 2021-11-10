@@ -1,35 +1,43 @@
 ﻿/// <reference path="../src/CookiePrompter.js"/>
-/// <reference path="resources/qunit.js" />
+/// <reference path="../node_modules/qunit/qunit/qunit.js" />
 
-module('SiteImproveTracker');
+QUnit.module('SiteImproveTracker',{
+    beforeEach: function () {
+        CookieDeleter.DeleteAll();
+    },
+    afterEach: function () {
+        CookieDeleter.DeleteAll();
+    }
+});
 
-test('SiteImproveTracker is initialized', function () {
-    expect(2);
+QUnit.test('SiteImproveTracker is initialized', function (assert) {
+    assert.expect(2);
     CookiePrompter.init({
         trackers: [{
             name: SiteImproveTracker,
             config: {
                 scriptLocation: '/scripts/FakeSiteImprove.js',
                 ready: function (cfg) {
-                    equal(cfg.scriptLocation, '/scripts/FakeSiteImprove.js');
-                    ok(true, 'tracker initialized');
+                    assert.equal(cfg.scriptLocation, '/scripts/FakeSiteImprove.js');
+                    assert.ok(true, 'tracker initialized');
                 }
             }
         }]
     });
 });
 
-test('SiteImproveTracker can erase cookie', function () {
-    stop();
+QUnit.test('SiteImproveTracker can erase cookie', function (assert) {
+    var done = assert.async();
+
     CookiePrompter.init({
         trackers: [{
             name: SiteImproveTracker,
             config: {
                 scriptLocation: '/scripts/FakeSiteImprove.js',
                 ready: function (cfg) {
-                    equal(cfg.scriptLocation, '/scripts/FakeSiteImprove.js');
-                    ok(true, 'tracker initialized');
-                    start();
+                    assert.equal(cfg.scriptLocation, '/scripts/FakeSiteImprove.js');
+                    assert.ok(true, 'tracker initialized');
+                    done();                    
                 }
             }
         }]
@@ -38,10 +46,11 @@ test('SiteImproveTracker can erase cookie', function () {
     // insert cookie manually
     CookieMgr.createCookie('nmstat', '1234', 23);
     // test that it is there
-    equal(CookieMgr.readCookie('nmstat'), '1234', 'Cookie was expected');
+    assert.equal(CookieMgr.readCookie('nmstat'), '1234', 'Cookie was expected');
 
     CookiePrompter.removeCookies();
 
     // test that it is gone
-    equal(CookieMgr.readCookie('nmstat'), null, 'Cookie was not expected');
+    assert.equal(CookieMgr.readCookie('nmstat'), null, 'Cookie was not expected');
+
 });

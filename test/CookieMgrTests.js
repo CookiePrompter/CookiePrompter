@@ -1,80 +1,82 @@
 ﻿/// <reference path="../src/CookiePrompter.js"/>
-/// <reference path="resources/qunit.js" />
+/// <reference path="../node_modules/qunit/qunit/qunit.js" />
 
-module('CookieMgr tests', {
-    setup: function () {},
-    teardown: function () {}
+QUnit.module('CookieMgr tests', {
+    setup: function () {
+        CookieDeleter.DeleteAll();
+    },
+    afterEach: function () {
+        CookieDeleter.DeleteAll();
+    },
 });
 
-test('readCookie will return null on empty string', function () {
+QUnit.test('readCookie will return null on empty string', function (assert) {
     var val = CookieMgr.readCookie('');
-    equal(val, null);
+    assert.equal(val, null);
 });
 
-test('readCookie will return null on null', function () {
+QUnit.test('readCookie will return null on null', function (assert) {
     var val = CookieMgr.readCookie();
-    equal(val, null);
+    assert.equal(val, null);
 });
 
-test('createCookie will create cookie', function () {
+QUnit.test('createCookie will create cookie', function (assert) {
     CookieMgr.createCookie('asdf', 'testval', 20);
     var saved = CookieMgr.readCookie('asdf');
-    equal(saved, 'testval');
+    assert.equal(saved, 'testval',"Cookie is not set");
 });
 
-test('eraseCookie will survive non-existing cookie', function () {
+QUnit.test('eraseCookie will survive non-existing cookie', function (assert) {
     CookieMgr.eraseCookie('test');
-    expect(0);
+    assert.expect(0);
 });
 
-test('eraseCookie will delete cookie', function () {
+QUnit.test('eraseCookie will delete cookie', function (assert) {
     CookieMgr.createCookie('asdf', 'testval', 20);
     CookieMgr.eraseCookie('asdf');
     var saved = CookieMgr.readCookie('asdf');
-    equal(saved, null);
+    assert.equal(saved, null);
 });
 
-
-
-test('www will be stripped from cookie domain', function () {
+QUnit.test('www will be stripped from cookie domain', function (assert) {
     var domain = CookieMgr.getCookieDomain('www.mydomain.com');
-    equal(domain, 'mydomain.com');
+    assert.equal(domain, 'mydomain.com');
 });
 
-test('when on a subdomain the subdomain will stay in cookie domain', function () {
+QUnit.test('when on a subdomain the subdomain will stay in cookie domain', function (assert) {
     var domain = CookieMgr.getCookieDomain('sales.mydomain.com');
-    equal(domain, 'sales.mydomain.com');
+    assert.equal(domain, 'sales.mydomain.com');
 });
 
-test('when forcingTLD on a subdomain the cookie domain will be the TLD', function () {
+QUnit.test('when forcingTLD on a subdomain the cookie domain will be the TLD', function (assert) {
     CookieMgr.init({
         setCookieOnTopLevelDomain: true
     });
     var domain = CookieMgr.getCookieDomain('sales.mydomain.com');
-    equal(domain, 'mydomain.com');
+    assert.equal(domain, 'mydomain.com');
 });
 
-test('when forcingTLD on multiple subdomains the cookie domain will be the TLD', function () {
+QUnit.test('when forcingTLD on multiple subdomains the cookie domain will be the TLD', function (assert) {
     CookieMgr.init({
         setCookieOnTopLevelDomain: true
     });
     var domain = CookieMgr.getCookieDomain('more.sales.mydomain.com');
-    equal(domain, 'mydomain.com');
+    assert.equal(domain, 'mydomain.com');
 });
 
 
-test('when forcingTLD on root domains the cookie domain will be the TLD', function () {
+QUnit.test('when forcingTLD on root domains the cookie domain will be the TLD', function (assert) {
     CookieMgr.init({
         setCookieOnTopLevelDomain: true
     });
     var domain = CookieMgr.getCookieDomain('mydomain.com');
-    equal(domain, 'mydomain.com');
+    assert.equal(domain, 'mydomain.com');
 });
 
-test('when forcingTLD on a subdomain with special chars the cookie domain will be the TLD', function () {
+QUnit.test('when forcingTLD on a subdomain with special chars the cookie domain will be the TLD', function (assert) {
     CookieMgr.init({
         setCookieOnTopLevelDomain: true
     });
     var domain = CookieMgr.getCookieDomain('sales22-monster.mydomain.com');
-    equal(domain, 'mydomain.com');
+    assert.equal(domain, 'mydomain.com');
 });

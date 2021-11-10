@@ -169,7 +169,7 @@ var CookiePrompter = (function () {
         if (opts.trackers) {
             for (var i = 0; i < opts.trackers.length; i++) {
                 var tracker = opts.trackers[i].name;
-                log(tracker);
+                log('adding tracker');
                 var trackerConfig = opts.trackers[i].config;
                 tracker.init(trackerConfig);
                 trackers.push(tracker);

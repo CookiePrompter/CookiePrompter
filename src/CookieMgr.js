@@ -18,6 +18,7 @@ var CookieMgr = (function () {
     };
 
     var createCookie = function (name, value, days) {
+        // debugger
             var expires = '';
             if (days) {
                 var date = new Date();

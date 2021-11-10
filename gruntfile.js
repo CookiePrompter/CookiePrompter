@@ -21,7 +21,25 @@ module.exports = function (grunt) {
 
         // Task configuration.
         qunit: {
-            all: ['./test/*.html']
+            options:{
+                timeout: 10000
+            },
+            all:{
+                options:
+                {
+                    urls:[
+                        "http://localhost:8000/test/tests.html"
+                    ]
+                }
+            }
+        },
+        connect: {
+          server: {
+            options: {
+              port: 8000,
+              base: '.'
+            }
+          }
         },
 
         jshint: {
@@ -64,7 +82,10 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-connect');
+
 
     // Default task
-    grunt.registerTask('default', ['jshint', 'qunit', 'concat', 'uglify']);
+    grunt.registerTask('default', ['jshint', 'connect','qunit', 'concat', 'uglify']);
+    grunt.registerTask('test', ['connect','qunit']);
 };

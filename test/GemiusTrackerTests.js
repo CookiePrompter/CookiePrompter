@@ -1,20 +1,20 @@
 /// <reference path="../src/CookiePrompter.js"/>
-/// <reference path="resources/qunit.js" />
+/// <reference path="../node_modules/qunit/qunit/qunit.js" />
 
-module('GemiusTracker');
+QUnit.module('GemiusTracker');
 
-test('GemiusTracker is initialized', function () {
-    expect(3);
+QUnit.test('GemiusTracker is initialized', function (assert) {
+    assert.expect(3);
     CookiePrompter.init({
         trackers: [{
             name: GemiusTracker,
             config: {
-                scriptLocation: '/scripts/FakeGemius.js',
+                scriptLocation: '/src/fakes/FakeGemius.js',
                 gemiusAccount: '123sdf43',
                 ready: function (cfg) {
-                    equal(cfg.scriptLocation, '/scripts/FakeGemius.js');
-                    equal(cfg.gemiusAccount, '123sdf43');
-                    ok(true, 'tracker initialized');
+                    assert.equal(cfg.scriptLocation, '/src/fakes/FakeGemius.js');
+                    assert.equal(cfg.gemiusAccount, '123sdf43');
+                    assert.ok(true, 'tracker initialized');
                 }
             }
         }]
@@ -23,10 +23,10 @@ test('GemiusTracker is initialized', function () {
 
 
 
-test('GemiusTracker is default async=true', function () {
-    expect(1);
+QUnit.test('GemiusTracker is default async=true', function (assert) {
+    assert.expect(1);
     var gaCfg = {
-        scriptLocation: '/scripts/FakeGemius.js',
+        scriptLocation: '/src/fakes/FakeGemius.js',
         gemiusAccount: '123sdf43'
     };
     GemiusTracker.init(gaCfg);
@@ -34,12 +34,12 @@ test('GemiusTracker is default async=true', function () {
 
     // get scriptBlock
     var scriptTag = document.getElementsByTagName('script')[0];
-    equal(scriptTag.async, true);
+    assert.equal(scriptTag.async, true);
 });
-test('GemiusTracker will respect injectCode async overriding', function () {
-    expect(1);
+QUnit.test('GemiusTracker will respect injectCode async overriding', function (assert) {
+    assert.expect(1);
     var gaCfg = {
-        scriptLocation: '/scripts/FakeGemius.js',
+        scriptLocation: '/src/fakes/FakeGemius.js',
         gemiusAccount: '123sdf43'
     };
     GemiusTracker.init(gaCfg);
@@ -49,5 +49,5 @@ test('GemiusTracker will respect injectCode async overriding', function () {
 
     // get scriptBlock
     var scriptTag = document.getElementsByTagName('script')[0];
-    equal(scriptTag.async, false);
+    assert.equal(scriptTag.async, false);
 });

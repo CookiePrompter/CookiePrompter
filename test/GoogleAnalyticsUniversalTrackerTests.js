@@ -1,15 +1,17 @@
 /// <reference path="../src/CookiePrompter.js"/>
-/// <reference path="resources/qunit.js" />
+/// <reference path="../node_modules/qunit/qunit/qunit.js" />
 
 
-module('GoogleAnalyticsUniversalTracker');
+QUnit.module('GoogleAnalyticsUniversalTracker',{
+    afterEach: function () {
+        CookieDeleter.DeleteAll();
+    }
+});
 
-test('GoogleAnalyticsUniversalTracker is initialized with account', function () {
-    expect(2);
+QUnit.test('GoogleAnalyticsUniversalTracker is initialized with account', function (assert) {
+    assert.expect(2);
     window.ga = function (param) {
-
-        ok(true);
-
+        assert.ok(true);
     };
     CookiePrompter.init({
         trackers: [{
@@ -18,16 +20,16 @@ test('GoogleAnalyticsUniversalTracker is initialized with account', function () 
                 fakeAnalytics: 'helpers/FakeGoogleAnalyticsUniversal.js',
                 account: '1234',
                 ready: function (cfg) {
-                    equal(cfg.account, '1234');
-                    ok(true, 'tracker initialized');
+                    assert.equal(cfg.account, '1234');
+                    assert.ok(true, 'tracker initialized');
                 }
             }
         }]
     });
 });
 
-test('GoogleAnalyticsUniversalTracker is initialized with params', function () {
-    expect(3);
+QUnit.test('GoogleAnalyticsUniversalTracker is initialized with params', function (assert) {
+    assert.expect(3);
     CookiePrompter.init({
         trackers: [{
             name: GoogleAnalyticsUniversalTracker,
@@ -36,9 +38,9 @@ test('GoogleAnalyticsUniversalTracker is initialized with params', function () {
                 account: '1234',
                 params: ['p1_sdf', 'p2)_sdfsf'],
                 ready: function (cfg) {
-                    equal(cfg.account, '1234');
-                    deepEqual(cfg.params, ['p1_sdf', 'p2)_sdfsf']);
-                    ok(true, 'tracker initialized');
+                    assert.equal(cfg.account, '1234');
+                    assert.deepEqual(cfg.params, ['p1_sdf', 'p2)_sdfsf']);
+                    assert.ok(true, 'tracker initialized');
                 }
             }
         }]
