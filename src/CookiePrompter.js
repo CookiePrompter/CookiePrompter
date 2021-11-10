@@ -113,7 +113,9 @@ var CookiePrompter = (function () {
         }
         html.push('<strong>' + config.textHeader + '</strong>');
         html.push('<p>' + config.textblock1);
-        html.push('<a href="#" id="eksCookieNo">' + config.textNoThanks + '</a>');
+        if(config.textNoThanks !== ''){
+            html.push('<a href="#" id="eksCookieNo">' + config.textNoThanks + '</a>');
+        }
         html.push(config.textblock2 + '</p>');
 
         if (config.readMoreUrl && document.location.hash !== '#cookieprompt') {
