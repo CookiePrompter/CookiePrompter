@@ -1,6 +1,11 @@
 {
   "name": "cookieprompter",
-  "version": "0.1.0",
+  "version": "2.3.3",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/CookiePrompter/CookiePrompter"
+  },
+  "license": "MIT",
   "devDependencies": {
     "grunt": "0.4.1",
     "grunt-contrib-concat": "0.1.3",
