@@ -8,7 +8,7 @@
   "license": "MIT",
   "devDependencies": {
     "express": "^4.17.1",
-    "grunt": "1.4.1",
+    "grunt": "1.5.3",
     "grunt-cli": "^1.4.3",
     "grunt-contrib-concat": "2.0.0",
     "grunt-contrib-connect": "^3.0.0",
